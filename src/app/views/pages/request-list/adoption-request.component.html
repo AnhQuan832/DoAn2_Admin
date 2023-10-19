@@ -1,0 +1,55 @@
+<div class="content position-relative h-100">
+  <div
+    *ngIf="isLoading"
+    class="loading w-100 h-100 position-absolute d-flex d-flex justify-content-center align-items-center flex-column gap-2 bg-body rounded-3 z-3"
+  >
+    <div class="spinner-border" role="status">
+      <span class="sr-only">Đang tải...</span>
+    </div>
+    <p style="opacity: 0.7">Đang tải</p>
+  </div>
+  <p-table
+    [value]="listRequest"
+    [paginator]="true"
+    [rows]="5"
+    styleClass="p-datatable-striped"
+    selectionMode="single"
+    [tableStyle]="{ 'min-width': '25rem' }"
+    emptyMessage="Hiện tại chưa có yêu cầu nào"
+  >
+    <ng-template pTemplate="header">
+      <tr>
+        <th style="min-width: 10%" class="py-3 ps-4">Tên thú cưng</th>
+        <th style="min-width: 10%" class="py-3">Tên người nhận nuôi</th>
+        <th style="min-width: 10%" class="py-3">Ngày gửi yêu cầu</th>
+        <th style="min-width: 10%" class="py-3 text-center">Tình trạng</th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-request>
+      <tr class="p-selectable-row" (click)="onRowSelect(request)">
+        <td class="ps-4">
+          {{ request.animal.animalName }}
+        </td>
+        <td>
+          {{ request.user.userFirstName + " " + request.user.userLastName }}
+        </td>
+        <td>
+          {{ request.date | date : "dd/MM/yyyy" }}
+        </td>
+        <td class="d-flex justify-content-center border border-0">
+          <p-tag
+            [value]="
+              request.applicationStatus === 'PENDING'
+                ? 'Đang chờ'
+                : request.applicationStatus === 'COMPLETED'
+                ? 'Xác nhận'
+                : 'Từ chối'
+            "
+            [severity]="getSeverity(request.applicationStatus)"
+          ></p-tag>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>
+<p-toast key="reactAdoption"></p-toast>

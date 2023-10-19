@@ -1,0 +1,107 @@
+<div class="content position-relative h-100">
+  <div
+    *ngIf="isLoading"
+    class="loading w-100 h-100 position-absolute d-flex d-flex justify-content-center align-items-center flex-column gap-2 bg-body rounded-3 z-3"
+  >
+    <div class="spinner-border" role="status">
+      <span class="sr-only">Đang tải...</span>
+    </div>
+    <p style="opacity: 0.7">Đang tải</p>
+  </div>
+  <p-table
+    #dt
+    dataKey="id"
+    [value]="listRequest"
+    [paginator]="true"
+    [rows]="10"
+    [globalFilterFields]="[
+      'shelter.shelterName',
+      'fund.fundName',
+      'date',
+      'requestStatus',
+      'value'
+    ]"
+    styleClass="p-datatable-striped"
+    selectionMode="single"
+    [tableStyle]="{ 'min-width': '25rem' }"
+  >
+    <ng-template pTemplate="caption">
+      <div class="search-bar w-100 d-flex justify-content-end">
+        <span class="p-input-icon-right float-end">
+          <i class="pi pi-search pe-2"></i>
+          <input
+            pInputText
+            class="ps-3 pe-4 py-2 rounded-4"
+            type="text"
+            #textInput
+            (input)="dt.filterGlobal(textInput.value, 'contains')"
+            placeholder="Nhập thông tin"
+          />
+        </span>
+      </div>
+    </ng-template>
+    <ng-template pTemplate="header">
+      <tr>
+        <th style="min-width: 20%" class="py-3 ps-4">Tên quỹ</th>
+        <th style="width: 20%" class="py-3">Tên trại</th>
+        <th style="width: 15%" class="py-3" pSortableColumn="date">
+          Ngày gửi <p-sortIcon field="date"></p-sortIcon>
+        </th>
+        <th style="width: 10%" class="py-3" pSortableColumn="value">
+          Số tiền yêu cầu <p-sortIcon field="value"></p-sortIcon>
+        </th>
+        <th
+          style="min-width: 10%"
+          class="py-3 text-center"
+          pSortableColumn="requestStatus"
+        >
+          Trạng thái <p-sortIcon field="requestStatus"></p-sortIcon>
+        </th>
+        <th style="min-width: 10%" class="py-3 text-center">Tuỳ chọn</th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-request>
+      <tr class="p-selectable-row">
+        <td class="ps-4">
+          {{ request.fund.fundName }}
+        </td>
+        <td>
+          {{ request.shelter.shelterName }}
+        </td>
+        <td>
+          {{ request.date ? (request.date | date : "dd/MM/yyyy") : "Chưa rõ" }}
+        </td>
+        <td class="fw-normal text-end">
+          {{ request.value.toLocaleString() + " VND" }}
+        </td>
+        <td class="d-flex justify-content-center border border-0">
+          <p-tag
+            [value]="
+              request.requestStatus === 'PENDING'
+                ? 'Đang chờ'
+                : request.requestStatus === 'COMPLETED'
+                ? 'Xác nhận'
+                : 'Từ chối'
+            "
+            [severity]="getSeverity(request.requestStatus)"
+          ></p-tag>
+        </td>
+        <td class="border border-0 text-center">
+          <p-button
+            *ngIf="request.requestStatus === 'PENDING'"
+            (onClick)="acceptRequest(request.requestID)"
+            icon="pi pi-check"
+            styleClass="p-button-rounded p-button-text"
+          ></p-button>
+          <p-button
+            *ngIf="request.requestStatus === 'PENDING'"
+            (onClick)="rejectRequest(request.requestID)"
+            icon="pi pi-times"
+            styleClass="p-button-rounded p-button-danger p-button-text"
+          ></p-button>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>
+<p-toast key="reactFundRequest"></p-toast>
