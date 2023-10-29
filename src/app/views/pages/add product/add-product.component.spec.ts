@@ -5,7 +5,7 @@ import { ChartjsModule } from '@coreui/angular-chartjs';
 import { IconSetService } from '@coreui/icons-angular';
 import { iconSubset } from '../../icons/icon-subset';
 import { DocsComponentsModule } from '../../../components';
-import { AdoptionRequestComponent } from './adoption-request.component';
+import { AdoptionRequestComponent } from './add-product.component';
 
 describe('ChartsComponent', () => {
   let component: AdoptionRequestComponent;

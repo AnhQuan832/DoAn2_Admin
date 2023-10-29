@@ -8,10 +8,10 @@ import { Page404Component } from './page404/page404.component';
 import { Page500Component } from './page500/page500.component';
 import { ButtonModule, CardModule, FormModule, GridModule } from '@coreui/angular';
 import { IconModule } from '@coreui/icons-angular';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ShelterRequestComponent } from './shelter-request/shelter-request.component';
-import { AdoptionDetailComponent } from './adoption-detail/adoption-detail.component';
-import { AdoptionRequestComponent } from './request-list/adoption-request.component';
+import { ProductDetailComponent } from './product-detail/product-detail.component';
+import { ProductManagement } from './product-management/product-management.component';
 
 
 import { DividerModule } from 'primeng/divider';
@@ -38,6 +38,8 @@ import { FundCardComponent } from './fund-card/fund-card.component';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { DropdownModule } from 'primeng/dropdown';
 import { InputNumberModule } from 'primeng/inputnumber';
+import { FileUploadModule } from 'primeng/fileupload';
+import { MultiSelectModule } from 'primeng/multiselect';
 
 import { environment } from 'src/environments/environment'
 import { AngularFireModule } from '@angular/fire/compat';
@@ -45,6 +47,10 @@ import { AngularFireDatabaseModule } from '@angular/fire/compat/database';
 import { AngularFireStorageModule } from '@angular/fire/compat/storage';
 import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
 import { ChatComponent } from './chat/chat.component';
+import { AddProduct } from './add product/add-product.component'
+import { AddBrand } from './add brand/add-brand.component'
+import { AddCategory } from './add category/add-category.component'
+import { AddSubCategory } from './add sub-category/add-sub-category.component'
 
 
 
@@ -56,14 +62,19 @@ import { ChatComponent } from './chat/chat.component';
     Page404Component,
     Page500Component,
     ShelterRequestComponent,
-    AdoptionDetailComponent,
-    AdoptionRequestComponent,
+    ProductDetailComponent,
+    ProductManagement,
     ShelterDetailComponent,
     DonationComponent,
     FundRequestComponent,
     DonationRequestComponent,
     FundCardComponent,
-    ChatComponent
+    ChatComponent,
+    AddProduct,
+    AddBrand,
+    AddCategory,
+    AddSubCategory,
+
   ],
   imports: [
     CommonModule,
@@ -95,7 +106,12 @@ import { ChatComponent } from './chat/chat.component';
     AngularFireDatabaseModule,
     AngularFireStorageModule,
     DropdownModule,
-    InputNumberModule
+    InputNumberModule,
+    FileUploadModule,
+    FormModule,
+    ReactiveFormsModule,
+    MultiSelectModule
+
   ],
   providers: [
     MessageService,

@@ -2,23 +2,19 @@ import { INavData } from '@coreui/angular';
 
 export const navItems: INavData[] = [
   {
-    name: 'Trang chủ',
+    name: 'Dashboard',
     url: '/dashboard',
     iconComponent: { name: 'cil-speedometer' }
 
   },
   {
-    name: 'Nhận nuôi',
+    name: 'Product',
     url: 'pages/adoption-request',
     iconComponent: { name: 'cil-dog' }
   },
+
   {
-    name: 'Đăng ký trại',
-    url: 'pages/shelter-request',
-    iconComponent: { name: 'cil-user-plus' }
-  },
-  {
-    name: 'Quỹ cứu trợ',
+    name: 'Order',
     iconComponent: { name: 'cil-chart-pie' },
     children: [
       {
@@ -35,13 +31,9 @@ export const navItems: INavData[] = [
       }
     ]
   },
+
   {
-    name: 'Tin nhắn',
-    url: 'pages/chat',
-    iconComponent: { name: 'cil-comment-bubble' }
-  },
-  {
-    name: 'Đăng xuất',
+    name: 'Log out',
     url: '/login',
     iconComponent: { name: 'cil-account-logout' }
   },

@@ -1,0 +1,83 @@
+<div class="content position-relative h-100">
+  <div
+    *ngIf="isLoading"
+    class="loading w-100 h-100 position-absolute d-flex d-flex justify-content-center align-items-center flex-column gap-2 bg-body rounded-3 z-3"
+  >
+    <div class="spinner-border" role="status">
+      <span class="sr-only">Loading...</span>
+    </div>
+    <p style="opacity: 0.7">Loading</p>
+  </div>
+  <p-table
+    #dt
+    [reorderableColumns]="true"
+    [value]="listProduct"
+    [scrollable]="true"
+    [paginator]="true"
+    [rows]="10"
+    styleClass="p-datatable-striped"
+    selectionMode="single"
+    [tableStyle]="{ 'min-width': '25rem' }"
+    emptyMessage="No data"
+  >
+    <ng-template pTemplate="caption">
+      <div class="search-bar w-100 d-flex justify-content-between">
+        <button
+          style="width: fit-content"
+          class="btn btn-primary"
+          (click)="addNewProduct()"
+        >
+          Add new
+        </button>
+
+        <span class="p-input-icon-right float-end">
+          <i class="pi pi-search pe-2"></i>
+          <input
+            pInputText
+            class="ps-3 pe-4 py-2 rounded-3"
+            type="text"
+            #textInput
+            (input)="dt.filterGlobal(textInput.value, 'contains')"
+            placeholder="Search ..."
+          />
+        </span>
+      </div>
+    </ng-template>
+    <ng-template pTemplate="header">
+      <tr>
+        <th pReorderableColumn style="min-width: 10%" class="py-3 ps-4">
+          Name
+        </th>
+        <th pReorderableColumn style="min-width: 10%" class="py-3">Brand</th>
+        <th pReorderableColumn style="min-width: 10%" class="py-3">Price</th>
+        <!-- <th style="min-width: 10%" class="py-3 text-center">Tình trạng</th> -->
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-product>
+      <tr class="p-selectable-row" (click)="onRowSelect(product)">
+        <td class="ps-4">
+          {{ product.name }}
+        </td>
+        <td>
+          {{ product.brand?.name }}
+        </td>
+        <td>
+          {{ product.price }}
+        </td>
+        <!-- <td class="d-flex justify-content-center border border-0">
+          <p-tag
+            [value]="
+              product.applicationStatus === 'PENDING'
+                ? 'Đang chờ'
+                : product.applicationStatus === 'COMPLETED'
+                ? 'Xác nhận'
+                : 'Từ chối'
+            "
+            [severity]="getSeverity(product.applicationStatus)"
+          ></p-tag>
+        </td> -->
+      </tr>
+    </ng-template>
+  </p-table>
+</div>
+<p-toast key="toast"></p-toast>

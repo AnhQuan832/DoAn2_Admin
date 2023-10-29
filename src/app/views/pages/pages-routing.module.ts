@@ -4,8 +4,8 @@ import { Page404Component } from './page404/page404.component';
 import { Page500Component } from './page500/page500.component';
 import { LoginComponent } from './login/login.component';
 import { ShelterRequestComponent } from './shelter-request/shelter-request.component';
-import { AdoptionRequestComponent } from './request-list/adoption-request.component'
-import { AdoptionDetailComponent } from './adoption-detail/adoption-detail.component'
+import { ProductManagement } from './product-management/product-management.component'
+import { ProductDetailComponent } from './product-detail/product-detail.component'
 import { ShelterDetailComponent } from './shelter-detail/shelter-detail.component';
 import { DonationComponent } from './donation/donation.component';
 import { DonationRequestComponent } from './donation-request/donation-request.component';
@@ -38,16 +38,16 @@ const routes: Routes = [
   },
   {
     path: 'adoption-request',
-    component: AdoptionRequestComponent,
+    component: ProductManagement,
     data: {
-      title: 'Danh sách yêu cầu'
+      title: 'Product management'
     }
   },
   {
-    path: 'adoption-detail/:id',
-    component: AdoptionDetailComponent,
+    path: 'product-detail/:id',
+    component: ProductDetailComponent,
     data: {
-      title: 'Thông tin chi tiết'
+      title: 'Product Detail'
     }
   },
   {

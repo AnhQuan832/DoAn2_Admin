@@ -14,6 +14,7 @@ export class LoginComponent implements OnInit {
   protected userPassword: string;
   protected isWrongLogin: boolean = false;
   protected isSubmitted: boolean = false;
+  protected msgError: string;
   constructor(
     private loginService: LoginService,
     private builder: FormBuilder,
@@ -28,22 +29,24 @@ export class LoginComponent implements OnInit {
   })
 
 
-
   login() {
     this.isSubmitted = true;
-    this.isWrongLogin = false
-    this.loginService.login(this.userEmail, this.userPassword).then(response => {
-      if (response.userRoles.includes('ROLE_ADMIN')) {
-        sessionStorage.setItem("userRoles", 'ROLE_ADMIN');
-        sessionStorage.setItem("jwtToken", JSON.stringify(response.jwtToken));
-        sessionStorage.setItem("userID", response.userID.replace('"', ''));
-        this.router.navigate(['/dashboard']);
-      }
-    })
-      .catch(error => {
-        console.log(error);
-        this.isWrongLogin = true;
+    if (this.userEmail && this.userPassword)
+      this.loginService.login(this.userEmail, this.userPassword).subscribe({
+        next: (res) => {
+          if (typeof res === 'string') {
+            this.msgError = res;
+            return
+          }
+          if (res.userRoles[0].roleName === 'ROLE_ADMIN' || res.userRoles[1].roleName === 'ROLE_ADMIN') {
+            sessionStorage.setItem("userRoles", 'ROLE_ADMIN');
+            sessionStorage.setItem("jwtToken", JSON.stringify(res.jwtToken));
+            this.router.navigate(['/dashboard']);
+          }
+        },
+        error: (err) => console.log(err),
       })
   }
+
 
 }

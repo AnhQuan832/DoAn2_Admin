@@ -5,9 +5,9 @@
         <c-card-group>
           <c-card class="p-4">
             <c-card-body>
-              <h1 class="pb-4">Đăng nhập</h1>
+              <h1 class="pb-4">Login</h1>
               <!-- <p class="text-medium-emphasis">Sign In to your account</p> -->
-              <c-input-group class="mb-3">
+              <c-input-group class="mb-2">
                 <span cInputGroupText>
                   <svg cIcon name="cilUser"></svg>
                 </span>
@@ -18,7 +18,13 @@
                   [(ngModel)]="userEmail"
                 />
               </c-input-group>
-
+              <div class="mb-3">
+                <div *ngIf="isSubmitted">
+                  <small class="text-danger" *ngIf="!userEmail"
+                    >Email is required</small
+                  >
+                </div>
+              </div>
               <c-input-group class="mb-3">
                 <span cInputGroupText>
                   <svg cIcon name="cilLockLocked"></svg>
@@ -31,18 +37,13 @@
                   [(ngModel)]="userPassword"
                 />
               </c-input-group>
-              <div
-                class="mb-2 text-center"
-                *ngIf="
-                  (loginForm.get('userPassword').invalid &&
-                    (loginForm.get('userPassword').dirty ||
-                      loginForm.get('userPassword').touched)) ||
-                  isWrongLogin
-                "
-              >
-                <small class="text-danger" *ngIf="isWrongLogin"
-                  >Email hoặc mật khẩu chưa đúng</small
-                >
+              <div *ngIf="isSubmitted" class="mb-2">
+                <small class="text-danger" *ngIf="!userPassword">
+                  Password is required.
+                </small>
+                <small class="text-danger text-center" *ngIf="msgError">
+                  {{ msgError }}.
+                </small>
               </div>
               <c-row class="d-flex justify-content-center">
                 <button
@@ -51,7 +52,7 @@
                   color="primary"
                   (click)="login()"
                 >
-                  Đăng nhập
+                  Sign in
                 </button>
               </c-row>
             </c-card-body>

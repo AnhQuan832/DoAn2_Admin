@@ -1,6 +1,5 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { PetService } from './pet.service';
 import { ShelterService } from './shelter.service';
 
 
@@ -12,7 +11,6 @@ export class PetAdoptionService {
   private baseUrl = "https://doan01-be-production.up.railway.app/api/v1/adopt";
   constructor(
     private http: HttpClient,
-    private petService: PetService,
     private shelterService: ShelterService) {
 
   }
