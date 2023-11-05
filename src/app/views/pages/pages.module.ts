@@ -9,7 +9,6 @@ import { Page500Component } from './page500/page500.component';
 import { ButtonModule, CardModule, FormModule, GridModule } from '@coreui/angular';
 import { IconModule } from '@coreui/icons-angular';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { ShelterRequestComponent } from './shelter-request/shelter-request.component';
 import { ProductDetailComponent } from './product-detail/product-detail.component';
 import { ProductManagement } from './product-management/product-management.component';
 
@@ -29,12 +28,8 @@ import { MessageModule } from 'primeng/message';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { TagModule } from 'primeng/tag';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
-import { ShelterDetailComponent } from './shelter-detail/shelter-detail.component';
 import { TooltipModule } from 'primeng/tooltip';
-import { DonationComponent } from './donation/donation.component';
-import { FundRequestComponent } from './fund-request/fund-request.component';
-import { DonationRequestComponent } from './donation-request/donation-request.component';
-import { FundCardComponent } from './fund-card/fund-card.component';
+
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { DropdownModule } from 'primeng/dropdown';
 import { InputNumberModule } from 'primeng/inputnumber';
@@ -61,14 +56,9 @@ import { AddSubCategory } from './add sub-category/add-sub-category.component'
     RegisterComponent,
     Page404Component,
     Page500Component,
-    ShelterRequestComponent,
     ProductDetailComponent,
     ProductManagement,
-    ShelterDetailComponent,
-    DonationComponent,
-    FundRequestComponent,
-    DonationRequestComponent,
-    FundCardComponent,
+
     ChatComponent,
     AddProduct,
     AddBrand,
@@ -116,6 +106,7 @@ import { AddSubCategory } from './add sub-category/add-sub-category.component'
   providers: [
     MessageService,
     ConfirmationService,
+    ProductManagement
   ]
 
 })

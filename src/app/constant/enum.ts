@@ -27,7 +27,7 @@ export const API = {
       'BRAND': API_URL + 'product/brand',
       'ATTRIBUTES': API_URL + 'product/variety/attributes',
       'ADD_ATTRIBUTES': API_URL + 'product/add-attribute',
-
+      'IMAGES': API_URL + 'product/product-images'
     },
     'STATUS': {
       'GET_PRODUCT_SUCCESS': '0_2_s',

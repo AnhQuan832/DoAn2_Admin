@@ -11,7 +11,7 @@ import { ProductManagement } from '../product-management/product-management.comp
 @Component({
   selector: 'app-charts',
   templateUrl: './add-brand.component.html',
-  styleUrls: ['./add-brand.component.scss']
+  styleUrls: ['./add-brand.component.scss'],
 })
 export class AddBrand implements OnInit {
 
