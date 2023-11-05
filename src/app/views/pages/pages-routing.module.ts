@@ -3,13 +3,8 @@ import { RouterModule, Routes } from '@angular/router';
 import { Page404Component } from './page404/page404.component';
 import { Page500Component } from './page500/page500.component';
 import { LoginComponent } from './login/login.component';
-import { ShelterRequestComponent } from './shelter-request/shelter-request.component';
 import { ProductManagement } from './product-management/product-management.component'
 import { ProductDetailComponent } from './product-detail/product-detail.component'
-import { ShelterDetailComponent } from './shelter-detail/shelter-detail.component';
-import { DonationComponent } from './donation/donation.component';
-import { DonationRequestComponent } from './donation-request/donation-request.component';
-import { FundRequestComponent } from './fund-request/fund-request.component';
 import { ChatComponent } from './chat/chat.component';
 
 
@@ -50,41 +45,7 @@ const routes: Routes = [
       title: 'Product Detail'
     }
   },
-  {
-    path: 'shelter-request',
-    component: ShelterRequestComponent,
-    data: {
-      title: 'Đăng ký tài khoản trại cứu trợ'
-    }
-  },
-  {
-    path: 'shelter-detail/:id',
-    component: ShelterDetailComponent,
-    data: {
-      title: 'Thông tin chi tiết'
-    }
-  },
-  {
-    path: 'donation',
-    component: DonationComponent,
-    data: {
-      title: 'Quản lý quỹ'
-    }
-  },
-  {
-    path: 'donation-request',
-    component: DonationRequestComponent,
-    data: {
-      title: 'Danh sách ủng hộ'
-    }
-  },
-  {
-    path: 'fund-request',
-    component: FundRequestComponent,
-    data: {
-      title: 'Yêu cầu hỗ trợ'
-    }
-  },
+
   {
     path: 'chat',
     component: ChatComponent,

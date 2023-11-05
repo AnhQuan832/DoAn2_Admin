@@ -26,6 +26,24 @@ export class ProductService {
       })
     );
   }
+
+  getProduct(id) {
+    let headers = this.getHttpHeader();
+    return this.http.get(API.PRODUCT.END_POINT.PRODUCT + `/${id}`, { headers }).pipe(
+      map((data: any) => {
+        if (data.meta.statusCode === API.PRODUCT.STATUS.GET_PRODUCT_SUCCESS) {
+          return data.data.product
+        }
+        else {
+          return [];
+        }
+      }),
+      catchError((err) => {
+        throw new Error(err)
+      })
+    );
+  }
+
   getCategory() {
     return this.http.get(API.PRODUCT.END_POINT.CATEGORY).pipe(
       map((data: any) => {
@@ -96,17 +114,17 @@ export class ProductService {
         if (data.meta.statusCode === API.PRODUCT.STATUS.GET_PRODUCT_SUCCESS) {
           return true;
         }
-        else if (data.meta.statusCode === API.PRODUCT.STATUS.FAIL)
+        else
           return false;
-        else {
-          return [];
-        }
+
       }),
       catchError((err) => {
         throw new Error(err)
       })
     );
   }
+
+
 
   addNewBrand(formData: FormData) {
     return this.http.post(API.PRODUCT.END_POINT.BRAND, formData, { headers: this.getHttpHeader() })
@@ -123,6 +141,37 @@ export class ProductService {
 
   addNewAttribute(attribute, productId) {
     return this.http.post(API.PRODUCT.END_POINT.ADD_ATTRIBUTES + `/${productId}`, { attribute })
+  }
+  updateProduct(formData) {
+    return this.http.put(API.PRODUCT.END_POINT.PRODUCT, formData, { headers: this.getHttpHeader() }).pipe(
+      map((data: any) => {
+        if (data.meta.statusCode === API.PRODUCT.STATUS.GET_PRODUCT_SUCCESS) {
+          return true;
+        }
+        else
+          return false;
+
+      }),
+      catchError((err) => {
+        throw new Error(err)
+      })
+    );
+  }
+
+  updateImages(id, formData) {
+    return this.http.put(API.PRODUCT.END_POINT.IMAGES + `/${id}`, formData, { headers: this.getHttpHeader() }).pipe(
+      map((data: any) => {
+        if (data.meta.statusCode === API.PRODUCT.STATUS.GET_PRODUCT_SUCCESS) {
+          return true;
+        }
+        else
+          return false;
+
+      }),
+      catchError((err) => {
+        throw new Error(err)
+      })
+    );
   }
 
 

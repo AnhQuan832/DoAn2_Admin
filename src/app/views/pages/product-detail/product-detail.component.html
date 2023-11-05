@@ -117,11 +117,12 @@
         </div>
       </p-divider>
       <div class="d-flex gap-2 flex-wrap">
+        <div *ngIf="product.varieties == 0">There is no attribute</div>
         <div *ngFor="let vari of product.varieties" class="variety">
           <p>{{ vari.varietyAttributes }}</p>
         </div>
       </div>
-      <span>
+      <span *ngIf="!isAddAtt">
         <div class="add-attribute d-flex" (click)="onShowAttribute()">
           <i class="bi bi-plus"></i>
           <p class="my-auto">Add more attribute</p>

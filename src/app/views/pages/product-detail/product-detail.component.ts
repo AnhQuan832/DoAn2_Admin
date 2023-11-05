@@ -34,6 +34,7 @@ export class ProductDetailComponent implements OnInit {
   removedImgs: Array<string> = new Array
   isAddAttribute: boolean = false;
   addProductForm = this.builder.group({
+    productId: this.builder.control(''),
     name: this.builder.control('', Validators.required),
     brand: this.builder.control('', Validators.required),
     category: this.builder.control('', Validators.required),
@@ -51,7 +52,8 @@ export class ProductDetailComponent implements OnInit {
     private builder: FormBuilder,
     private sanitizer: DomSanitizer,
     private dialogService: DialogService,
-    private storageService: StorageService
+    private storageService: StorageService,
+    private messageService: MessageService
   ) {
   }
   ngOnInit(): void {
@@ -93,7 +95,21 @@ export class ProductDetailComponent implements OnInit {
         this.imgs[i].file.name
       )
     }
+    return formData
+  }
 
+  toBlobImgs() {
+    const formData = new FormData();
+    for (let i = 0; i < this.imgs.length; i++) {
+      formData.append(
+        'deletedImages', this.imgs[i].file,
+        this.imgs[i].file.name
+      )
+    }
+    formData.append(
+      'newImages', new Blob([JSON.stringify(this.removedImgs)], { type: 'application/json' })
+
+    )
     return formData
   }
 
@@ -124,13 +140,29 @@ export class ProductDetailComponent implements OnInit {
   }
 
   onSaveProduct() {
-    this.addProductForm.patchValue({ petTypeId: '1' })
-    console.log(this.addProductForm.get('brandId').value)
-    this.productSerivce.addNewProduct(this.prepareFormData(this.addProductForm)).subscribe({
+    this.productSerivce.updateImages(this.addProductForm.get('productId').value, this.toBlobImgs()).subscribe({
       next: (res) => {
-        this.ref.close();
-      },
-      error: (err) => console.log(err)
+        console.log(res)
+      }
+    })
+    // this.addProductForm.patchValue({ petTypeId: '1' })
+    // this.productSerivce.updateProduct(this.addProductForm.value).subscribe({
+    //   next: (res) => {
+    //     this.messageService.add({ key: 'toast', severity: 'success', detail: 'Success' })
+    //     this.getProductDetail(this.addProductForm.get('productId').value);
+    //   },
+    //   error: (err) => {
+    //     this.messageService.add({ key: 'toast', severity: 'error', detail: 'Something went wrong' })
+    //     console.log(err)
+    //   }
+    // })
+  }
+
+  getProductDetail(id) {
+    this.productSerivce.getProduct(id).subscribe({
+      next: (res) => {
+        this.storageService.setItemLocal("currentProduct", res)
+      }
     })
   }
 
