@@ -8,30 +8,17 @@
       </p-divider>
       <span class="p-float-label col-11">
         <h6 class="addressLabel ps-0">Name</h6>
-        <input
-          class="inputtext ps-1 w-100"
-          type="text"
-          formControlName="name"
-        />
+        <input class="inputtext ps-1 w-100" type="text" formControlName="name" />
       </span>
       <span class="p-float-label">
         <h6 class="addressLabel ps-0">Brand</h6>
         <div class="d-flex gap-2">
           <div class="col-11">
-            <p-dropdown
-              [options]="brandOption"
-              optionLabel="name"
-              [autoDisplayFirst]="false"
-              formControlName="brand"
-            >
+            <p-dropdown [options]="brandOption" optionLabel="name" [autoDisplayFirst]="false" formControlName="brand">
             </p-dropdown>
           </div>
           <div class="col-1 d-flex align-items-center">
-            <i
-              class="bi bi-plus-circle-dotted"
-              (click)="onAddBrand()"
-              pTooltip="Add new Brand"
-            ></i>
+            <i class="bi bi-plus-circle-dotted" (click)="onAddBrand()" pTooltip="Add new Brand"></i>
           </div>
         </div>
       </span>
@@ -39,20 +26,12 @@
         <h6 class="addressLabel ps-0">Category</h6>
         <div class="d-flex gap-2">
           <div class="col-11">
-            <p-dropdown
-              [options]="categoryOption"
-              optionLabel="name"
-              [autoDisplayFirst]="false"
-              formControlName="category"
-            >
+            <p-dropdown [options]="categoryOption" optionLabel="name" [autoDisplayFirst]="false"
+              formControlName="category">
             </p-dropdown>
           </div>
           <div class="col-1 d-flex align-items-center">
-            <i
-              class="bi bi-plus-circle-dotted"
-              (click)="onAddCategory()"
-              pTooltip="Add new Category"
-            ></i>
+            <i class="bi bi-plus-circle-dotted" (click)="onAddCategory()" pTooltip="Add new Category"></i>
           </div>
         </div>
       </span>
@@ -60,54 +39,30 @@
         <h6 class="addressLabel ps-0">Sub category</h6>
         <div class="d-flex gap-2">
           <div class="col-11">
-            <p-dropdown
-              [options]="subCategoryOption"
-              optionLabel="name"
-              [autoDisplayFirst]="false"
-              formControlName="subCategory"
-            >
+            <p-dropdown [options]="subCategoryOption" optionLabel="name" [autoDisplayFirst]="false"
+              formControlName="subCategory">
             </p-dropdown>
           </div>
           <div class="col-1 d-flex align-items-center">
-            <i
-              class="bi bi-plus-circle-dotted"
-              (click)="onAddSubCategory()"
-              pTooltip="Add new Sub Category"
-            ></i>
+            <i class="bi bi-plus-circle-dotted" (click)="onAddSubCategory()" pTooltip="Add new Sub Category"></i>
           </div>
         </div>
       </span>
       <span class="p-float-label col-11">
         <h6 class="addressLabel ps-0">Price</h6>
-        <input
-          class="inputtext ps-1 w-100"
-          type="text"
-          formControlName="price"
-        />
+        <input class="inputtext ps-1 w-100" type="text" formControlName="price" />
       </span>
 
       <span class="p-float-label col-11">
         <h6 class="addressLabel ps-0">Detail</h6>
-        <textarea
-          formControlName="detail"
-          class="w-100"
-          name=""
-          id="textarea"
-          pInputTextarea
-          [autoResize]="true"
-        ></textarea>
+        <textarea formControlName="detail" class="w-100" name="" id="textarea" pInputTextarea
+          [autoResize]="true"></textarea>
       </span>
 
       <span class="p-float-label col-11">
         <h6 class="addressLabel ps-0">Description</h6>
-        <textarea
-          formControlName="description"
-          class="w-100"
-          name=""
-          id="textarea"
-          pInputTextarea
-          [autoResize]="true"
-        ></textarea>
+        <textarea formControlName="description" class="w-100" name="" id="textarea" pInputTextarea
+          [autoResize]="true"></textarea>
       </span>
     </div>
     <div class="w-50 ms-4">
@@ -116,12 +71,73 @@
           <b>Attribute</b>
         </div>
       </p-divider>
-      <div class="d-flex gap-2 flex-wrap">
-        <div *ngIf="product.varieties == 0">There is no attribute</div>
-        <div *ngFor="let vari of product.varieties" class="variety">
-          <p>{{ vari.varietyAttributes }}</p>
+      <!-- <div class="size attribute" *ngIf="listSize.length > 0">
+        <h6 class="mt-2"><b>Size</b></h6>
+        <div
+          class="size"
+          *ngFor="let size of listSize"
+          [id]="size.attributeId"
+          (click)="onAttribute($event, size, 'size')"
+        >
+          {{ size.name }}
         </div>
       </div>
+      <div class="color attribute" *ngIf="listColor.length > 0">
+        <h6 class="mt-2"><b>Color</b></h6>
+        <div
+          class="color"
+          *ngFor="let color of listColor"
+          [id]="color.attributeId"
+          (click)="onAttribute($event, color, 'color')"
+        >
+          {{ color.name }}
+        </div>
+      </div>
+      <span class="p-float-label col-11">
+        <h6 class="addressLabel ps-0">Price</h6>
+        <input
+          class="inputtext ps-1 w-50"
+          type="text"
+          [(ngModel)]="attPrice"
+          [ngModelOptions]="{ standalone: true }"
+        />
+      </span> -->
+
+      <p-table [value]="product.varieties" dataKey="id" [tableStyle]="{ 'min-width': '20rem' }">
+        <ng-template pTemplate="header">
+          <tr>
+            <th *ngIf="listSize.length > 0">Size</th>
+            <th *ngIf="listColor.length > 0">Color</th>
+            <th>Stock</th>
+            <th>Price</th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-variety let-editing="editing">
+          <tr>
+            <td *ngIf="listSize.length > 0">
+              {{variety.varietyAttributes[0]?.type == 'SIZE' ? variety.varietyAttributes[0]?.name:
+              variety.varietyAttributes[1]?.name}}
+            </td>
+            <td *ngIf="listColor.length > 0">
+              {{variety.varietyAttributes[0]?.type != 'SIZE' ? variety.varietyAttributes[0]?.name:
+              variety.varietyAttributes[1]?.name}}
+            </td>
+            <td></td>
+            <td [pEditableColumn]="variety.name" pEditableColumnField="price">
+              <p-cellEditor>
+                <ng-template pTemplate="input">
+                  <input pInputText type="number" [(ngModel)]="variety.price" [ngModelOptions]="{standalone: true}"
+                    required />
+                </ng-template>
+                <ng-template pTemplate="output">
+                  {{ variety.price | currency : 'VND' }}
+                </ng-template>
+              </p-cellEditor>
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+
       <span *ngIf="!isAddAtt">
         <div class="add-attribute d-flex" (click)="onShowAttribute()">
           <i class="bi bi-plus"></i>
@@ -132,24 +148,12 @@
         <h6 class="addressLabel ps-0">Color</h6>
         <div class="d-flex gap-2">
           <div class="col-11">
-            <p-dropdown
-              [options]="attribute.COLOR"
-              optionLabel="name"
-              [autoDisplayFirst]="false"
-              formControlName="color"
-            >
+            <p-dropdown [options]="attribute.COLOR" optionLabel="name" [autoDisplayFirst]="false"
+              formControlName="color">
             </p-dropdown>
           </div>
-          <div
-            *ngIf="addProductForm.get('color').value"
-            class="col-1 d-flex align-items-center"
-          >
-            <i
-              style="color: green"
-              class="bi bi-check-circle"
-              (click)="onAddAttribute('color')"
-              pTooltip="Confirm"
-            ></i>
+          <div *ngIf="addProductForm.get('color').value" class="col-1 d-flex align-items-center">
+            <i style="color: green" class="bi bi-check-circle" (click)="onAddAttribute('color')" pTooltip="Confirm"></i>
           </div>
         </div>
       </span>
@@ -158,24 +162,11 @@
         <h6 class="addressLabel ps-0">Size</h6>
         <div class="d-flex gap-2">
           <div class="col-11">
-            <p-dropdown
-              [options]="attribute.SIZE"
-              optionLabel="name"
-              [autoDisplayFirst]="false"
-              formControlName="size"
-            >
+            <p-dropdown [options]="attribute.SIZE" optionLabel="name" [autoDisplayFirst]="false" formControlName="size">
             </p-dropdown>
           </div>
-          <div
-            *ngIf="addProductForm.get('size').value"
-            class="col-1 d-flex align-items-center"
-          >
-            <i
-              style="color: green"
-              class="bi bi-check-circle"
-              (click)="onAddAttribute('color')"
-              pTooltip="Confirm"
-            ></i>
+          <div *ngIf="addProductForm.get('size').value" class="col-1 d-flex align-items-center">
+            <i style="color: green" class="bi bi-check-circle" (click)="onAddAttribute('size')" pTooltip="Confirm"></i>
           </div>
         </div>
       </span>
@@ -189,28 +180,17 @@
     </p-divider>
     <div class="img-container d-flex gap-4 m-4 my-1" *ngIf="listImages">
       <div class="img-content" *ngFor="let img of listImages">
-        <div
-          class="btn-delete rounded-circle d-flex justify-content-center align-items-center"
-          (click)="deleteImg(img)"
-        >
+        <div class="btn-delete rounded-circle d-flex justify-content-center align-items-center"
+          (click)="deleteImg(img)">
           <i class="bi bi-x" style="color: #f5f5f5"></i>
         </div>
         <img src="{{ img }}" alt="" />
       </div>
     </div>
     <div class="d-flex justify-content-center w-100">
-      <p-fileUpload
-        name="file[]"
-        class="w-100 my-1"
-        name="demo[]"
-        chooseLabel="Select image"
-        cancelLabel="Cancel"
-        [showUploadButton]="false"
-        [multiple]="true"
-        [maxFileSize]="10000000"
-        (onSelect)="onSelectFiles($event)"
-        (onRemove)="onRemoveFile($event)"
-      >
+      <p-fileUpload name="file[]" class="w-100 my-1" name="demo[]" chooseLabel="Select image" cancelLabel="Cancel"
+        [showUploadButton]="false" [multiple]="true" [maxFileSize]="10000000" (onSelect)="onSelectFiles($event)"
+        (onRemove)="onRemoveFile($event)">
         <ng-template pTemplate="content">
           <!-- <ul *ngIf="uploadedFiles.length">
             <li *ngFor="let file of uploadedFiles">
@@ -222,12 +202,8 @@
     </div>
   </div>
   <div class="button-group d-flex justify-content-center mt-2">
-    <button
-      type="submit"
-      class="btn btn-primary text-nowrap"
-      (click)="onSaveProduct()"
-      [disabled]="addProductForm.invalid"
-    >
+    <button type="submit" class="btn btn-primary text-nowrap" (click)="onSaveProduct()"
+      [disabled]="addProductForm.invalid">
       Save
     </button>
   </div>
