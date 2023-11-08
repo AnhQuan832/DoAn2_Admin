@@ -126,7 +126,7 @@
             <td [pEditableColumn]="variety.name" pEditableColumnField="price">
               <p-cellEditor>
                 <ng-template pTemplate="input">
-                  <input pInputText type="text" [(ngModel)]="variety.price" [ngModelOptions]="{standalone: true}"
+                  <input pInputText type="number" [(ngModel)]="variety.price" [ngModelOptions]="{standalone: true}"
                     required />
                 </ng-template>
                 <ng-template pTemplate="output">

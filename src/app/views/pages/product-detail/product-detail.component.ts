@@ -48,9 +48,10 @@ export class ProductDetailComponent implements OnInit {
     price: this.builder.control('', Validators.required),
     detail: this.builder.control(''),
     description: this.builder.control(''),
-    petTypeId: this.builder.control(''),
+    petTypeId: this.builder.control(1),
     size: this.builder.control(''),
     color: this.builder.control(''),
+    varieties: this.builder.control([])
   })
 
   constructor(
@@ -205,22 +206,24 @@ export class ProductDetailComponent implements OnInit {
   }
 
   onSaveProduct() {
-    this.productSerivce.updateImages(this.addProductForm.get('productId').value, this.toBlobImgs()).subscribe({
-      next: (res) => {
-        console.log(res)
-      }
-    })
-    // this.addProductForm.patchValue({ petTypeId: '1' })
-    // this.productSerivce.updateProduct(this.addProductForm.value).subscribe({
+    console.log(this.product)
+    // this.productSerivce.updateImages(this.addProductForm.get('productId').value, this.toBlobImgs()).subscribe({
     //   next: (res) => {
-    //     this.messageService.add({ key: 'toast', severity: 'success', detail: 'Success' })
-    //     this.getProductDetail(this.addProductForm.get('productId').value);
-    //   },
-    //   error: (err) => {
-    //     this.messageService.add({ key: 'toast', severity: 'error', detail: 'Something went wrong' })
-    //     console.log(err)
+    //     console.log(res)
     //   }
     // })
+    this.addProductForm.patchValue({ varieties: this.product.varieties })
+    console.log(this.addProductForm.value)
+    this.productSerivce.updateProduct(this.addProductForm.value).subscribe({
+      next: (res) => {
+        this.messageService.add({ key: 'toast', severity: 'success', detail: 'Success' })
+        this.getProductDetail(this.addProductForm.get('productId').value);
+      },
+      error: (err) => {
+        this.messageService.add({ key: 'toast', severity: 'error', detail: 'Something went wrong' })
+        console.log(err)
+      }
+    })
   }
 
   getProductDetail(id) {
