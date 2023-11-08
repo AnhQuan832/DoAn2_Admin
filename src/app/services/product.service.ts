@@ -140,7 +140,7 @@ export class ProductService {
   }
 
   addNewAttribute(attribute, productId) {
-    return this.http.post(API.PRODUCT.END_POINT.ADD_ATTRIBUTES + `/${productId}`, { attribute })
+    return this.http.post(API.PRODUCT.END_POINT.ADD_ATTRIBUTES + `/${productId}`, attribute)
   }
   updateProduct(formData) {
     return this.http.put(API.PRODUCT.END_POINT.PRODUCT, formData, { headers: this.getHttpHeader() }).pipe(

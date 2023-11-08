@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { Validators, FormBuilder } from '@angular/forms';
 import { DomSanitizer } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -31,8 +31,14 @@ export class ProductDetailComponent implements OnInit {
   ref: DynamicDialogRef;
   product: any;
   listImages: string[];
+  listColor: any[] = [];
+  listSize: any[] = [];
+  selectedColor: any;
+  selectedSize: any;
+  listDetailVariety: any[] = [];
   removedImgs: Array<string> = new Array
   isAddAttribute: boolean = false;
+  attPrice = 0;
   addProductForm = this.builder.group({
     productId: this.builder.control(''),
     name: this.builder.control('', Validators.required),
@@ -56,6 +62,7 @@ export class ProductDetailComponent implements OnInit {
     private messageService: MessageService
   ) {
   }
+
   ngOnInit(): void {
     this.initialize();
   }
@@ -80,6 +87,27 @@ export class ProductDetailComponent implements OnInit {
     this.productSerivce.getSubCategory(this.product.subCategory.category.categoryId).subscribe({
       next: (res) => this.subCategoryOption = res
     })
+    this.getProduct();
+  }
+
+  getProduct() {
+    this.productSerivce.getProduct(this.product.productId).subscribe({
+      next: (res) => {
+        this.product = res;
+        this.product.varieties.forEach(item => {
+          this.listDetailVariety.push({ ...item, ...item.varietyAttributes })
+        });
+        console.log(this.product)
+        this.listSize = [];
+        this.listColor = [];
+        this.product.varietyAttributeList.forEach(item => {
+          if (item.type === 'SIZE')
+            this.listSize.push(item)
+          else
+            this.listColor.push(item)
+        })
+      }
+    })
   }
 
   prepareFormData(product: any) {
@@ -102,16 +130,50 @@ export class ProductDetailComponent implements OnInit {
     const formData = new FormData();
     for (let i = 0; i < this.imgs.length; i++) {
       formData.append(
-        'deletedImages', this.imgs[i].file,
+        'newImages', this.imgs[i].file,
         this.imgs[i].file.name
       )
     }
     formData.append(
-      'newImages', new Blob([JSON.stringify(this.removedImgs)], { type: 'application/json' })
-
+      'deletedImages', new Blob([JSON.stringify(this.removedImgs)], { type: 'application/json' })
     )
     return formData
   }
+
+  onAttribute(event, data, type) {
+    const items = document.querySelectorAll(`.${type}`)
+    items.forEach((item) => {
+      item.classList.remove("active")
+      item.removeAttribute("style");
+    })
+    event.srcElement.classList.add("active")
+    if (type === 'color')
+      this.selectedColor = data
+    else
+      this.selectedSize = data
+  }
+
+  // handleChangeAttribute() {
+  //   console.log(this.listDetailVariety)
+  //   console.log(this.selectedColor)
+  //   console.log(this.selectedSize)
+  //   const att = this.listDetailVariety.find(item => item[0].attributeId === this.selectedSize.attributeId && item[1].attributeId === this.selectedColor.attributeId)
+  //   this.attPrice = att.price;
+  // }
+  // setDefaultAttribute() {
+  //   let colorItem, sizeItem;
+  //   if (this.listColor.length > 0) {
+  //     colorItem = document.getElementById(this.listColor[0].attributeId)
+  //     colorItem.classList.add("active")
+  //     this.selectedColor = this.listColor[0];
+  //   }
+  //   if (this.listSize.length > 0) {
+  //     sizeItem = document.getElementById(this.listSize[0].attributeId)
+  //     sizeItem.classList.add("active")
+  //     this.selectedSize = this.listSize[0];
+  //   }
+
+  // }
 
   onAddBrand() {
     this.dialogService.open(AddBrand, {
@@ -135,7 +197,10 @@ export class ProductDetailComponent implements OnInit {
 
   onAddAttribute(type: string) {
     this.productSerivce.addNewAttribute(this.addProductForm.get(`${type}`).value, this.product.productId).subscribe({
-      next: (res) => console.log("add success")
+      next: (res) => {
+        this.messageService.add({ key: 'toast', severity: 'success', detail: 'Success' })
+        this.getProduct();
+      }
     })
   }
 
