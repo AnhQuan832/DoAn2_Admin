@@ -1,184 +1,322 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { ShelterService } from './shelter.service';
 import { API } from '../constant/enum';
 import { catchError, map } from 'rxjs';
+import { StorageService } from './storage.service';
 @Injectable({
-  providedIn: 'root'
+    providedIn: 'root',
 })
 export class ProductService {
+    constructor(
+        private http: HttpClient,
+        private storageService: StorageService
+    ) {}
 
-  constructor(private http: HttpClient) { }
+    getAllProduct() {
+        return this.http.get(API.PRODUCT.END_POINT.PRODUCT).pipe(
+            map((data: any) => {
+                if (
+                    data.meta.statusCode ===
+                    API.PRODUCT.STATUS.GET_PRODUCT_SUCCESS
+                ) {
+                    return data.data.productList;
+                } else {
+                    return [];
+                }
+            }),
+            catchError((err) => {
+                throw new Error(err);
+            })
+        );
+    }
 
-  getAllProduct() {
-    let headers = this.getHttpHeader();
-    return this.http.get(API.PRODUCT.END_POINT.PRODUCT, { headers }).pipe(
-      map((data: any) => {
-        if (data.meta.statusCode === API.PRODUCT.STATUS.GET_PRODUCT_SUCCESS) {
-          return data.data.productList
-        }
-        else {
-          return [];
-        }
-      }),
-      catchError((err) => {
-        throw new Error(err)
-      })
-    );
-  }
+    getProduct(id) {
+        return this.http.get(API.PRODUCT.END_POINT.PRODUCT + `/${id}`).pipe(
+            map((data: any) => {
+                if (
+                    data.meta.statusCode ===
+                    API.PRODUCT.STATUS.GET_PRODUCT_SUCCESS
+                ) {
+                    return data.data.product;
+                } else {
+                    return [];
+                }
+            }),
+            catchError((err) => {
+                throw new Error(err);
+            })
+        );
+    }
 
-  getProduct(id) {
-    let headers = this.getHttpHeader();
-    return this.http.get(API.PRODUCT.END_POINT.PRODUCT + `/${id}`, { headers }).pipe(
-      map((data: any) => {
-        if (data.meta.statusCode === API.PRODUCT.STATUS.GET_PRODUCT_SUCCESS) {
-          return data.data.product
-        }
-        else {
-          return [];
-        }
-      }),
-      catchError((err) => {
-        throw new Error(err)
-      })
-    );
-  }
+    getCategory() {
+        return this.http.get(API.PRODUCT.END_POINT.CATEGORY).pipe(
+            map((data: any) => {
+                if (
+                    data.meta.statusCode ===
+                    API.PRODUCT.STATUS.GET_PRODUCT_SUCCESS
+                ) {
+                    return data.data.categoryList;
+                } else {
+                    return [];
+                }
+            }),
+            catchError((err) => {
+                throw new Error(err);
+            })
+        );
+    }
 
-  getCategory() {
-    return this.http.get(API.PRODUCT.END_POINT.CATEGORY).pipe(
-      map((data: any) => {
-        if (data.meta.statusCode === API.PRODUCT.STATUS.GET_PRODUCT_SUCCESS) {
-          return data.data.categoryList
-        }
-        else {
-          return [];
-        }
-      }),
-      catchError((err) => {
-        throw new Error(err)
-      })
-    );
-  }
+    getSubCategory(categoryId?) {
+        return this.http
+            .get(API.PRODUCT.END_POINT.SUB_CATEGORY + `/${categoryId}`)
+            .pipe(
+                map((data: any) => {
+                    if (
+                        data.meta.statusCode ===
+                        API.PRODUCT.STATUS.GET_PRODUCT_SUCCESS
+                    ) {
+                        return data.data.subCategoryList;
+                    } else {
+                        return [];
+                    }
+                }),
+                catchError((err) => {
+                    throw new Error(err);
+                })
+            );
+    }
 
-  getSubCategory(categoryId?) {
-    return this.http.get(API.PRODUCT.END_POINT.SUB_CATEGORY + `/${categoryId}`).pipe(
-      map((data: any) => {
-        if (data.meta.statusCode === API.PRODUCT.STATUS.GET_PRODUCT_SUCCESS) {
-          return data.data.subCategoryList
-        }
-        else {
-          return [];
-        }
-      }),
-      catchError((err) => {
-        throw new Error(err)
-      })
-    );
-  }
+    getBrand() {
+        return this.http.get(API.PRODUCT.END_POINT.BRAND).pipe(
+            map((data: any) => {
+                if (
+                    data.meta.statusCode ===
+                    API.PRODUCT.STATUS.GET_PRODUCT_SUCCESS
+                ) {
+                    return data.data.brandList;
+                } else {
+                    return [];
+                }
+            }),
+            catchError((err) => {
+                throw new Error(err);
+            })
+        );
+    }
 
-  getBrand() {
-    return this.http.get(API.PRODUCT.END_POINT.BRAND).pipe(
-      map((data: any) => {
-        if (data.meta.statusCode === API.PRODUCT.STATUS.GET_PRODUCT_SUCCESS) {
-          return data.data.brandList
-        }
-        else {
-          return [];
-        }
-      }),
-      catchError((err) => {
-        throw new Error(err)
-      })
-    );
-  }
+    getAttribute() {
+        return this.http.get(API.PRODUCT.END_POINT.ATTRIBUTES).pipe(
+            map((data: any) => {
+                if (
+                    data.meta.statusCode ===
+                    API.PRODUCT.STATUS.GET_PRODUCT_SUCCESS
+                ) {
+                    return data.data.productList;
+                } else {
+                    return [];
+                }
+            }),
+            catchError((err) => {
+                throw new Error(err);
+            })
+        );
+    }
 
-  getAttribute() {
-    return this.http.get(API.PRODUCT.END_POINT.ATTRIBUTES).pipe(
-      map((data: any) => {
-        if (data.meta.statusCode === API.PRODUCT.STATUS.GET_PRODUCT_SUCCESS) {
-          return data.data.productList
-        }
-        else {
-          return [];
-        }
-      }),
-      catchError((err) => {
-        throw new Error(err)
-      })
-    );
-  }
+    addNewProduct(formData: FormData) {
+        return this.http
+            .post(API.PRODUCT.END_POINT.PRODUCT, formData, {
+                headers: this.storageService.getHttpHeader(),
+            })
+            .pipe(
+                map((data: any) => {
+                    if (
+                        data.meta.statusCode ===
+                        API.PRODUCT.STATUS.GET_PRODUCT_SUCCESS
+                    ) {
+                        return true;
+                    } else return false;
+                }),
+                catchError((err) => {
+                    throw new Error(err);
+                })
+            );
+    }
 
-  addNewProduct(formData: FormData) {
-    return this.http.post(API.PRODUCT.END_POINT.PRODUCT, formData, { headers: this.getHttpHeader() }).pipe(
-      map((data: any) => {
-        if (data.meta.statusCode === API.PRODUCT.STATUS.GET_PRODUCT_SUCCESS) {
-          return true;
-        }
-        else
-          return false;
+    addNewBrand(formData: FormData) {
+        return this.http.post(API.PRODUCT.END_POINT.BRAND, formData, {
+            headers: this.storageService.getHttpHeader(),
+        });
+    }
 
-      }),
-      catchError((err) => {
-        throw new Error(err)
-      })
-    );
-  }
+    addNewCategory(name) {
+        return this.http.post(
+            API.PRODUCT.END_POINT.CATEGORY,
+            { name: name },
+            { headers: this.storageService.getHttpHeader() }
+        );
+    }
 
+    addNewSubCategory(form) {
+        return this.http.post(API.PRODUCT.END_POINT.SUB_CATEGORY, form, {
+            headers: this.storageService.getHttpHeader(),
+        });
+    }
 
+    addNewAttribute(attribute, productId) {
+        return this.http.post(
+            API.PRODUCT.END_POINT.ADD_ATTRIBUTES + `/${productId}`,
+            attribute,
+            { headers: this.storageService.getHttpHeader() }
+        );
+    }
+    updateProduct(formData) {
+        return this.http
+            .put(API.PRODUCT.END_POINT.PRODUCT, formData, {
+                headers: this.storageService.getHttpHeader(),
+            })
+            .pipe(
+                map((data: any) => {
+                    if (
+                        data.meta.statusCode ===
+                        API.PRODUCT.STATUS.GET_PRODUCT_SUCCESS
+                    ) {
+                        return true;
+                    } else return false;
+                }),
+                catchError((err) => {
+                    throw new Error(err);
+                })
+            );
+    }
 
-  addNewBrand(formData: FormData) {
-    return this.http.post(API.PRODUCT.END_POINT.BRAND, formData, { headers: this.getHttpHeader() })
-  }
+    updateImages(id, formData) {
+        return this.http
+            .put(API.PRODUCT.END_POINT.IMAGES + `/${id}`, formData, {
+                headers: this.storageService.getHttpHeader(),
+            })
+            .pipe(
+                map((data: any) => {
+                    if (
+                        data.meta.statusCode ===
+                        API.PRODUCT.STATUS.GET_PRODUCT_SUCCESS
+                    ) {
+                        return true;
+                    } else return false;
+                }),
+                catchError((err) => {
+                    throw new Error(err);
+                })
+            );
+    }
 
+    deleteAttribute(params) {
+        return this.http
+            .delete(
+                API.PRODUCT.END_POINT.IMAGES +
+                    `/${params.productId}/${params.attributeId}`,
+                { headers: this.storageService.getHttpHeader() }
+            )
+            .pipe(
+                map((data: any) => {
+                    if (
+                        data.meta.statusCode ===
+                        API.PRODUCT.STATUS.GET_PRODUCT_SUCCESS
+                    ) {
+                        return true;
+                    } else return false;
+                }),
+                catchError((err) => {
+                    throw new Error(err);
+                })
+            );
+    }
 
-  addNewCategory(name) {
-    return this.http.post(API.PRODUCT.END_POINT.CATEGORY, { name: name }, { headers: this.getHttpHeader() })
-  }
+    getAllImport() {
+        return this.http
+            .get(API.IMPORT.END_POINT.IMPORT, {
+                headers: this.storageService.getHttpHeader(),
+            })
+            .pipe(
+                map((data: any) => {
+                    if (
+                        data.meta.statusCode ===
+                        API.IMPORT.STATUS.GET_PRODUCT_SUCCESS
+                    ) {
+                        return data.data.invoiceList;
+                    } else {
+                        return [];
+                    }
+                }),
+                catchError((err) => {
+                    throw new Error(err);
+                })
+            );
+    }
 
-  addNewSubCategory(form) {
-    return this.http.post(API.PRODUCT.END_POINT.SUB_CATEGORY, form, { headers: this.getHttpHeader() })
-  }
+    processImport(data) {
+        return this.http
+            .post(API.IMPORT.END_POINT.IMPORT, data, {
+                headers: this.storageService.getHttpHeader(),
+            })
+            .pipe(
+                map((data: any) => {
+                    if (
+                        data.meta.statusCode ===
+                        API.IMPORT.STATUS.GET_PRODUCT_SUCCESS
+                    ) {
+                        return data.data.invoiceList;
+                    } else {
+                        return [];
+                    }
+                }),
+                catchError((err) => {
+                    throw new Error(err);
+                })
+            );
+    }
 
-  addNewAttribute(attribute, productId) {
-    return this.http.post(API.PRODUCT.END_POINT.ADD_ATTRIBUTES + `/${productId}`, attribute)
-  }
-  updateProduct(formData) {
-    return this.http.put(API.PRODUCT.END_POINT.PRODUCT, formData, { headers: this.getHttpHeader() }).pipe(
-      map((data: any) => {
-        if (data.meta.statusCode === API.PRODUCT.STATUS.GET_PRODUCT_SUCCESS) {
-          return true;
-        }
-        else
-          return false;
+    getInvoidGroup(id) {
+        return this.http
+            .get(API.IMPORT.END_POINT.GROUP + `/${id}`, {
+                headers: this.storageService.getHttpHeader(),
+            })
+            .pipe(
+                map((data: any) => {
+                    if (
+                        data.meta.statusCode ===
+                        API.IMPORT.STATUS.GET_PRODUCT_SUCCESS
+                    ) {
+                        return data.data.itemGroup;
+                    } else {
+                        return [];
+                    }
+                }),
+                catchError((err) => {
+                    throw new Error(err);
+                })
+            );
+    }
 
-      }),
-      catchError((err) => {
-        throw new Error(err)
-      })
-    );
-  }
-
-  updateImages(id, formData) {
-    return this.http.put(API.PRODUCT.END_POINT.IMAGES + `/${id}`, formData, { headers: this.getHttpHeader() }).pipe(
-      map((data: any) => {
-        if (data.meta.statusCode === API.PRODUCT.STATUS.GET_PRODUCT_SUCCESS) {
-          return true;
-        }
-        else
-          return false;
-
-      }),
-      catchError((err) => {
-        throw new Error(err)
-      })
-    );
-  }
-
-
-  getHttpHeader(): HttpHeaders {
-    return new HttpHeaders({
-      'Authorization': `Bearer ${JSON.parse(sessionStorage.getItem("jwtToken"))}`,
-    });
-  }
-
+    getInvoiceDetail(params) {
+        return this.http
+            .get(API.IMPORT.END_POINT.DETAIL, {
+                params: params,
+                headers: this.storageService.getHttpHeader(),
+            })
+            .pipe(
+                map((data: any) => {
+                    if (
+                        data.meta.statusCode ===
+                        API.IMPORT.STATUS.GET_PRODUCT_SUCCESS
+                    ) {
+                        return data.data.itemList;
+                    } else {
+                        return [];
+                    }
+                }),
+                catchError((err) => {
+                    throw new Error(err);
+                })
+            );
+    }
 }
