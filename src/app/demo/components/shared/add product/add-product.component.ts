@@ -15,10 +15,9 @@ import { ProductComponent } from '../../pages/product/product.component';
     selector: 'app-charts',
     templateUrl: './add-product.component.html',
     styleUrls: ['./add-product.component.scss'],
-    providers: [DialogService]
+    providers: [DialogService],
 })
 export class AddProduct implements OnInit {
-
     avatarFile: any;
     avatarUrl: any;
     imgs: FileHandler[] = [];
@@ -26,8 +25,8 @@ export class AddProduct implements OnInit {
     categoryOption;
     attribute = {
         COLOR: [],
-        SIZE: []
-    }
+        SIZE: [],
+    };
     subCategoryOption;
     addProductForm = this.builder.group({
         name: this.builder.control('', Validators.required),
@@ -41,7 +40,7 @@ export class AddProduct implements OnInit {
         size: this.builder.control(''),
         color: this.builder.control(''),
         varietyAttributeList: this.builder.control([]),
-    })
+    });
 
     constructor(
         private productSerivce: ProductService,
@@ -52,7 +51,7 @@ export class AddProduct implements OnInit {
         private messageService: MessageService,
         private ref: DynamicDialogRef,
         private productCpn: ProductComponent
-    ) { }
+    ) {}
     ngOnInit(): void {
         this.initialize();
     }
@@ -61,81 +60,90 @@ export class AddProduct implements OnInit {
         this.productSerivce.getAttribute().subscribe({
             next: (res) => {
                 this.attribute = res;
-            }
-        })
+            },
+        });
         this.productSerivce.getBrand().subscribe({
-            next: (res) => this.brandOption = res
-        })
+            next: (res) => (this.brandOption = res),
+        });
         this.productSerivce.getCategory().subscribe({
-            next: (res) => this.categoryOption = res
-        })
-
+            next: (res) => (this.categoryOption = res),
+        });
     }
 
     prepareFormData(product: any) {
         const formData = new FormData();
-        const data = product.value
+        const data = product.value;
         formData.append(
             'productDTO',
             new Blob([JSON.stringify(data)], { type: 'application/json' })
         );
         for (let i = 0; i < this.imgs.length; i++) {
             formData.append(
-                'images', this.imgs[i].file,
+                'images',
+                this.imgs[i].file,
                 this.imgs[i].file.name
-            )
+            );
         }
 
-        return formData
+        return formData;
     }
 
     onAddBrand() {
         this.dialogService.open(AddBrand, {
-            header: 'Add new Brand'
-        })
+            header: 'Add new Brand',
+        });
     }
 
     onAddCategory() {
         this.dialogService.open(AddCategory, {
-            header: 'Add new Category'
-
-        })
+            header: 'Add new Category',
+        });
     }
 
     onAddSubCategory() {
         this.dialogService.open(AddSubCategory, {
-            header: 'Add new SubCategory'
-
-        })
+            header: 'Add new SubCategory',
+        });
     }
 
     onAddProduct() {
-        this.addProductForm.patchValue({ petTypeId: '1' })
-        const listVariety = [...this.addProductForm.get('color').value, ...this.addProductForm.get('size').value];
-        this.addProductForm.get('varietyAttributeList').setValue(listVariety)
-        console.log(this.addProductForm.value)
-        console.log(this.imgs.length)
-        this.productSerivce.addNewProduct(this.prepareFormData(this.addProductForm)).subscribe({
-            next: (res) => {
-                if (res) {
-                    this.productCpn.showToast("Success", "success")
-                    setTimeout(() => {
-                        this.ref.close();
-                    }, 100);
-                }
-                else {
-                    this.productCpn.showToast("Fail", "error")
-                }
-
-            },
-            error: (err) => console.log(err)
-        })
+        this.addProductForm.patchValue({ petTypeId: '1' });
+        const listVariety = [
+            ...this.addProductForm.get('color').value,
+            ...this.addProductForm.get('size').value,
+        ];
+        this.addProductForm.get('varietyAttributeList').setValue(listVariety);
+        console.log(this.addProductForm.value);
+        console.log(this.imgs.length);
+        this.productSerivce
+            .addNewProduct(this.prepareFormData(this.addProductForm))
+            .subscribe({
+                next: (res) => {
+                    if (res) {
+                        this.messageService.add({
+                            key: 'toast',
+                            severity: 'success',
+                            detail: 'Add product success',
+                        });
+                        setTimeout(() => {
+                            this.ref.close();
+                        }, 100);
+                    } else {
+                        this.messageService.add({
+                            key: 'toast',
+                            severity: 'error',
+                            detail: 'Add product fail',
+                        });
+                    }
+                },
+                error: (err) => console.log(err),
+            });
     }
 
     onCategoryChange(event) {
         this.productSerivce.getSubCategory(event.value.categoryId).subscribe({
-            next: (res) => this.subCategoryOption = res
-        })
+            next: (res) => (this.subCategoryOption = res),
+        });
     }
 
     public onSelectFiles(event) {
@@ -145,18 +153,16 @@ export class AddProduct implements OnInit {
                 file: file,
                 url: this.sanitizer.bypassSecurityTrustUrl(
                     window.URL.createObjectURL(file)
-                )
-            }
+                ),
+            };
             this.imgs.push(fileHandler);
         }
     }
 
     onRemoveFile(event) {
-        const newImgs = this.imgs.filter(file => file.file.name !== event.file.name)
+        const newImgs = this.imgs.filter(
+            (file) => file.file.name !== event.file.name
+        );
         this.imgs = newImgs;
     }
-
-
-
 }
-

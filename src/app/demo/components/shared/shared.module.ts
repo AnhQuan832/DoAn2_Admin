@@ -29,6 +29,7 @@ import { TooltipModule } from 'primeng/tooltip';
 import { PagesRoutingModule } from '../pages/pages-routing.module';
 import { MessageService } from 'primeng/api';
 import { ProductComponent } from '../pages/product/product.component';
+import { InputTextModule } from 'primeng/inputtext';
 
 
 
@@ -65,7 +66,9 @@ import { ProductComponent } from '../pages/product/product.component';
         InputNumberModule,
         FileUploadModule,
         ReactiveFormsModule,
-        MultiSelectModule
+        MultiSelectModule,
+        InputTextModule,
+        InputNumberModule
     ],
     providers: [MessageService, DialogService, ProductComponent]
 })

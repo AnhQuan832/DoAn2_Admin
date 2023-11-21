@@ -260,4 +260,13 @@ export class ProductDetailComponent implements OnInit {
         this.removedImgs.push(imgLink);
         this.listImages = this.listImages.filter(e => e !== imgLink);
     }
+
+    onDeleteAtt(vari) {
+        console.log(vari)
+        this.productSerivce.deleteAttribute(vari).subscribe({
+            next: () => this.messageService.add({ key: 'toast', severity: 'success', detail: 'Deleted' }),
+            error: () => this.messageService.add({ key: 'toast', severity: 'error', detail: 'Delete failed' }),
+        })
+    }
+
 }

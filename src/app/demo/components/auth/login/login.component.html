@@ -61,9 +61,12 @@
                         [(ngModel)]="password"
                         placeholder="Password"
                         [toggleMask]="true"
-                        styleClass="mb-5"
+                        styleClass="mb-2"
                         inputStyleClass="w-full p-3 md:w-30rem"
                     ></p-password>
+                    <div class="text-danger text-center" *ngIf="err">
+                        Incorrect authentication
+                    </div>
 
                     <div
                         class="flex align-items-center justify-content-between mb-5 gap-5"

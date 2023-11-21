@@ -85,12 +85,14 @@
                     </span>
                     <span class="p-float-label col-11">
                         <h6 class="addressLabel ps-0">Price</h6>
-                        <input
-                            pInputText
+                        <p-inputNumber
                             class="inputtext ps-1 w-100"
-                            type="text"
                             formControlName="price"
-                        />
+                            mode="currency"
+                            min="0"
+                            currency="VND"
+                            locale="jp-JP"
+                        ></p-inputNumber>
                     </span>
 
                     <span class="p-float-label col-11">
@@ -162,10 +164,15 @@
                     >
                         <ng-template pTemplate="header">
                             <tr>
-                                <th *ngIf="listSize.length > 0">Size</th>
-                                <th *ngIf="listColor.length > 0">Color</th>
-                                <th>Stock</th>
-                                <th>Price</th>
+                                <th width="80px" *ngIf="listSize.length > 0">
+                                    Size
+                                </th>
+                                <th width="80px" *ngIf="listColor.length > 0">
+                                    Color
+                                </th>
+                                <th width="80px">Stock</th>
+                                <th width="150px">Price</th>
+                                <th width="80px"></th>
                             </tr>
                         </ng-template>
                         <ng-template
@@ -190,16 +197,19 @@
                                             : variety.varietyAttributes[1]?.name
                                     }}
                                 </td>
-                                <td></td>
+                                <td class="text-center">
+                                    {{ variety.stockAmount || 0 }}
+                                </td>
                                 <td
                                     [pEditableColumn]="variety.name"
                                     pEditableColumnField="price"
                                 >
                                     <p-cellEditor>
                                         <ng-template pTemplate="input">
-                                            <input
-                                                pInputText
-                                                type="number"
+                                            <p-inputNumber
+                                                mode="currency"
+                                                locale="jp-JP"
+                                                currency="VND"
                                                 [(ngModel)]="variety.price"
                                                 [ngModelOptions]="{
                                                     standalone: true
@@ -208,11 +218,38 @@
                                             />
                                         </ng-template>
                                         <ng-template pTemplate="output">
-                                            {{
-                                                variety.price | currency : "VND"
-                                            }}
+                                            <span
+                                                pTooltip="Edit price"
+                                                style="cursor: pointer"
+                                            >
+                                                {{
+                                                    variety.price
+                                                        | currency : "VND"
+                                                }}
+                                            </span>
                                         </ng-template>
                                     </p-cellEditor>
+                                </td>
+                                <td>
+                                    <div class="flex">
+                                        <!-- <button
+                                            pButton
+                                            pRipple
+                                            icon="pi pi-pencil"
+                                            class="p-button-rounded p-button-success mr-2"
+                                            (click)="onRowSelect(product)"
+                                        ></button> -->
+                                        <button
+                                            pButton
+                                            pRipple
+                                            icon="pi pi-trash"
+                                            class="p-button-rounded p-button-warning"
+                                            (click)="
+                                                $event.stopPropagation();
+                                                onDeleteAtt(variety)
+                                            "
+                                        ></button>
+                                    </div>
                                 </td>
                             </tr>
                         </ng-template>

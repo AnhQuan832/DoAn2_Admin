@@ -22,12 +22,18 @@ import { ProductDetailComponent } from './product-detail/product-detail.componen
 import { DividerModule } from 'primeng/divider';
 import { MessageService } from 'primeng/api';
 import { DialogService } from 'primeng/dynamicdialog';
+import { TooltipModule } from 'primeng/tooltip';
+import { ProductImportComponent } from './product-import/product-import.component';
+import { ProductImportDetailComponent } from './product-import-detail/product-import-detail.component';
+import { MultiSelectModule } from 'primeng/multiselect';
 
-
+import { PanelModule } from 'primeng/panel';
 @NgModule({
     declarations: [
         ProductComponent,
-        ProductDetailComponent
+        ProductDetailComponent,
+        ProductImportComponent,
+        ProductImportDetailComponent
     ],
     imports: [
         CommonModule,
@@ -50,7 +56,10 @@ import { DialogService } from 'primeng/dynamicdialog';
         ToastModule,
         DividerModule,
         ReactiveFormsModule,
-        FormsModule
+        FormsModule,
+        TooltipModule,
+        MultiSelectModule,
+        PanelModule,
     ],
     providers: [MessageService, DialogService]
 })

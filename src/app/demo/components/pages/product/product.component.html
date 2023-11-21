@@ -1,7 +1,6 @@
 <div class="grid">
     <div class="col-12">
         <div class="card px-6 py-6">
-            <p-toast></p-toast>
             <p-toolbar styleClass="mb-4">
                 <ng-template pTemplate="left">
                     <div class="my-2">
@@ -11,7 +10,7 @@
                             label="New"
                             icon="pi pi-plus"
                             class="p-button-success mr-2"
-                            (click)="openNew()"
+                            (click)="addNewProduct()"
                         ></button>
                         <button
                             pButton
@@ -27,7 +26,7 @@
                     </div>
                 </ng-template>
 
-                <ng-template pTemplate="right">
+                <!-- <ng-template pTemplate="right">
                     <p-fileUpload
                         mode="basic"
                         accept="image/*"
@@ -44,7 +43,7 @@
                         class="p-button-help"
                         (click)="dt.exportCSV()"
                     ></button>
-                </ng-template>
+                </ng-template> -->
             </p-toolbar>
 
             <p-table
@@ -55,9 +54,9 @@
                 [rows]="10"
                 [globalFilterFields]="[
                     'name',
-                    'country.name',
-                    'representative.name',
-                    'status'
+                    'price',
+                    'brand.name',
+                    'subCategory.category.name'
                 ]"
                 [paginator]="true"
                 [rowsPerPageOptions]="[10, 20, 30]"
@@ -94,19 +93,24 @@
                             Name <p-sortIcon field="name"></p-sortIcon>
                         </th>
                         <th>Image</th>
+                        <th pSortableColumn="brand.name">
+                            Brand
+                            <p-sortIcon field="brand.name"></p-sortIcon>
+                        </th>
                         <th pSortableColumn="price">
                             Price <p-sortIcon field="price"></p-sortIcon>
                         </th>
-                        <th pSortableColumn="category">
-                            Category <p-sortIcon field="category"></p-sortIcon>
+
+                        <th pSortableColumn="subCategory.category.name">
+                            Category
+                            <p-sortIcon
+                                field="subCategory.category.name"
+                            ></p-sortIcon>
                         </th>
-                        <th pSortableColumn="rating">
-                            Reviews <p-sortIcon field="rating"></p-sortIcon>
+                        <th pSortableColumn="avgRating">
+                            Reviews <p-sortIcon field="avgRating"></p-sortIcon>
                         </th>
-                        <th pSortableColumn="inventoryStatus">
-                            Status
-                            <p-sortIcon field="inventoryStatus"></p-sortIcon>
-                        </th>
+
                         <th></th>
                     </tr>
                 </ng-template>
@@ -131,6 +135,11 @@
                                 class="shadow-4"
                             />
                         </td>
+                        <td>
+                            <span>
+                                {{ product.brand.name }}
+                            </span>
+                        </td>
                         <td style="width: 14%; min-width: 8rem">
                             <span class="p-column-title">Price</span>
                             {{ product.price | currency : "VND" }}
@@ -147,18 +156,7 @@
                                 [cancel]="false"
                             ></p-rating>
                         </td>
-                        <td style="width: 14%; min-width: 10rem">
-                            <span class="p-column-title">Status</span>
-                            <span
-                                [class]="
-                                    'product-badge status-' +
-                                    (product.inventoryStatus
-                                        ? product.inventoryStatus.toLowerCase()
-                                        : '')
-                                "
-                                >{{ product.inventoryStatus }}</span
-                            >
-                        </td>
+
                         <td>
                             <div class="flex">
                                 <button
