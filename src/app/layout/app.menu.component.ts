@@ -46,6 +46,11 @@ export class AppMenuComponent implements OnInit {
                         routerLink: ['/pages/order'],
                     },
                     {
+                        label: 'Voucher',
+                        icon: 'pi pi-fw pi-ticket',
+                        routerLink: ['/pages/voucher'],
+                    },
+                    {
                         label: 'Log out',
                         icon: 'pi pi-fw pi-sign-in',
                         routerLink: ['/auth/login'],

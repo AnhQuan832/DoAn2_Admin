@@ -46,6 +46,23 @@ export const API = {
             FAIL: '0_1_f',
         },
     },
+    ORDER: {
+        END_POINT: {},
+        STATUS: {
+            GET_PRODUCT_SUCCESS: '0_2_s',
+            FAIL: '0_1_f',
+        },
+    },
+    VOUCHER: {
+        END_POINT: {
+            VOUCHER: API_URL + 'voucher',
+            AVAILABLE_VOUCHER: API_URL + 'voucher/available-voucher',
+        },
+        STATUS: {
+            GET_PRODUCT_SUCCESS: '0_2_s',
+            FAIL: '0_1_f',
+        },
+    },
 };
 
 export const ATTRIBUTED = {
