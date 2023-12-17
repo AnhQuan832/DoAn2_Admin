@@ -5,7 +5,6 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { MenuItem, MessageService } from 'primeng/api';
 import { DynamicDialogRef, DialogService } from 'primeng/dynamicdialog';
 import { FileHandler } from 'src/app/model/FileHandler';
-import { PetAdoptionService } from 'src/app/services/pet-adoption.service';
 import { ProductService } from 'src/app/services/product.service';
 import { StorageService } from 'src/app/services/storage.service';
 import { AddBrand } from '../../../shared/add brand/add-brand.component';
@@ -16,14 +15,14 @@ import { AddSubCategory } from '../../../shared/add sub-category/add-sub-categor
     selector: 'app-product-detail',
     templateUrl: './product-detail.component.html',
     styleUrls: ['./product-detail.component.less'],
-    providers: [DialogService]
+    providers: [DialogService],
 })
 export class ProductDetailComponent implements OnInit {
     imgs: FileHandler[] = [];
     attribute = {
         COLOR: [],
-        SIZE: []
-    }
+        SIZE: [],
+    };
     isAddAtt: boolean = false;
     brandOption;
     categoryOption;
@@ -36,7 +35,7 @@ export class ProductDetailComponent implements OnInit {
     selectedColor: any;
     selectedSize: any;
     listDetailVariety: any[] = [];
-    removedImgs: Array<string> = new Array
+    removedImgs: Array<string> = new Array();
     isAddAttribute: boolean = false;
     attPrice = 0;
     addProductForm = this.builder.group({
@@ -51,8 +50,8 @@ export class ProductDetailComponent implements OnInit {
         petTypeId: this.builder.control(1),
         size: this.builder.control(''),
         color: this.builder.control(''),
-        varieties: this.builder.control([])
-    })
+        varieties: this.builder.control([]),
+    });
 
     constructor(
         private productSerivce: ProductService,
@@ -61,33 +60,36 @@ export class ProductDetailComponent implements OnInit {
         private dialogService: DialogService,
         private storageService: StorageService,
         private messageService: MessageService
-    ) {
-    }
+    ) {}
 
     ngOnInit(): void {
         this.initialize();
     }
 
     private initialize() {
-        this.product = this.storageService.getItemLocal("currentProduct");
+        this.product = this.storageService.getItemLocal('currentProduct');
         this.listImages = this.product.images;
-        this.addProductForm.patchValue(this.product)
-        this.addProductForm.patchValue({ category: this.product.subCategory.category })
+        this.addProductForm.patchValue(this.product);
+        this.addProductForm.patchValue({
+            category: this.product.subCategory.category,
+        });
 
         this.productSerivce.getAttribute().subscribe({
             next: (res) => {
                 this.attribute = res;
-            }
-        })
+            },
+        });
         this.productSerivce.getBrand().subscribe({
-            next: (res) => this.brandOption = res
-        })
+            next: (res) => (this.brandOption = res),
+        });
         this.productSerivce.getCategory().subscribe({
-            next: (res) => this.categoryOption = res
-        })
-        this.productSerivce.getSubCategory(this.product.subCategory.category.categoryId).subscribe({
-            next: (res) => this.subCategoryOption = res
-        })
+            next: (res) => (this.categoryOption = res),
+        });
+        this.productSerivce
+            .getSubCategory(this.product.subCategory.category.categoryId)
+            .subscribe({
+                next: (res) => (this.subCategoryOption = res),
+            });
         this.getProduct();
     }
 
@@ -95,63 +97,67 @@ export class ProductDetailComponent implements OnInit {
         this.productSerivce.getProduct(this.product.productId).subscribe({
             next: (res) => {
                 this.product = res;
-                this.product.varieties.forEach(item => {
-                    this.listDetailVariety.push({ ...item, ...item.varietyAttributes })
+                this.product.varieties.forEach((item) => {
+                    this.listDetailVariety.push({
+                        ...item,
+                        ...item.varietyAttributes,
+                    });
                 });
-                console.log(this.product)
+                console.log(this.product);
                 this.listSize = [];
                 this.listColor = [];
-                this.product.varietyAttributeList.forEach(item => {
-                    if (item.type === 'SIZE')
-                        this.listSize.push(item)
-                    else
-                        this.listColor.push(item)
-                })
-            }
-        })
+                this.product.varietyAttributeList.forEach((item) => {
+                    if (item.type === 'SIZE') this.listSize.push(item);
+                    else this.listColor.push(item);
+                });
+            },
+        });
     }
 
     prepareFormData(product: any) {
         const formData = new FormData();
-        const data = product.value
+        const data = product.value;
         formData.append(
             'productDTO',
             new Blob([JSON.stringify(data)], { type: 'application/json' })
         );
         for (let i = 0; i < this.imgs.length; i++) {
             formData.append(
-                'images', this.imgs[i].file,
+                'images',
+                this.imgs[i].file,
                 this.imgs[i].file.name
-            )
+            );
         }
-        return formData
+        return formData;
     }
 
     toBlobImgs() {
         const formData = new FormData();
         for (let i = 0; i < this.imgs.length; i++) {
             formData.append(
-                'newImages', this.imgs[i].file,
+                'newImages',
+                this.imgs[i].file,
                 this.imgs[i].file.name
-            )
+            );
         }
         formData.append(
-            'deletedImages', new Blob([JSON.stringify(this.removedImgs)], { type: 'application/json' })
-        )
-        return formData
+            'deletedImages',
+            new Blob([JSON.stringify(this.removedImgs)], {
+                type: 'application/json',
+            })
+        );
+        return formData;
     }
 
     onAttribute(event, data, type) {
-        const items = document.querySelectorAll(`.${type}`)
+        const items = document.querySelectorAll(`.${type}`);
         items.forEach((item) => {
-            item.classList.remove("active")
-            item.removeAttribute("style");
-        })
-        event.srcElement.classList.add("active")
-        if (type === 'color')
-            this.selectedColor = data
-        else
-            this.selectedSize = data
+            item.classList.remove('active');
+            item.removeAttribute('style');
+        });
+        event.srcElement.classList.add('active');
+        if (type === 'color') this.selectedColor = data;
+        else this.selectedSize = data;
     }
 
     // handleChangeAttribute() {
@@ -178,60 +184,76 @@ export class ProductDetailComponent implements OnInit {
 
     onAddBrand() {
         this.dialogService.open(AddBrand, {
-            header: 'Add new Brand'
-        })
+            header: 'Add new Brand',
+        });
     }
 
     onAddCategory() {
         this.dialogService.open(AddCategory, {
-            header: 'Add new Category'
-
-        })
+            header: 'Add new Category',
+        });
     }
 
     onAddSubCategory() {
         this.dialogService.open(AddSubCategory, {
-            header: 'Add new SubCategory'
-
-        })
+            header: 'Add new SubCategory',
+        });
     }
 
     onAddAttribute(type: string) {
-        this.productSerivce.addNewAttribute(this.addProductForm.get(`${type}`).value, this.product.productId).subscribe({
-            next: (res) => {
-                this.messageService.add({ key: 'toast', severity: 'success', detail: 'Success' })
-                this.getProduct();
-            }
-        })
+        this.productSerivce
+            .addNewAttribute(
+                this.addProductForm.get(`${type}`).value,
+                this.product.productId
+            )
+            .subscribe({
+                next: (res) => {
+                    this.messageService.add({
+                        key: 'toast',
+                        severity: 'success',
+                        detail: 'Success',
+                    });
+                    this.getProduct();
+                },
+            });
     }
 
     onSaveProduct() {
-        console.log(this.product)
+        console.log(this.product);
         // this.productSerivce.updateImages(this.addProductForm.get('productId').value, this.toBlobImgs()).subscribe({
         //   next: (res) => {
         //     console.log(res)
         //   }
         // })
-        this.addProductForm.patchValue({ varieties: this.product.varieties })
-        console.log(this.addProductForm.value)
+        this.addProductForm.patchValue({ varieties: this.product.varieties });
         this.productSerivce.updateProduct(this.addProductForm.value).subscribe({
             next: (res) => {
-                this.messageService.add({ key: 'toast', severity: 'success', detail: 'Success' })
-                this.getProductDetail(this.addProductForm.get('productId').value);
+                this.messageService.add({
+                    key: 'toast',
+                    severity: 'success',
+                    detail: 'Success',
+                });
+                this.getProductDetail(
+                    this.addProductForm.get('productId').value
+                );
             },
             error: (err) => {
-                this.messageService.add({ key: 'toast', severity: 'error', detail: 'Something went wrong' })
-                console.log(err)
-            }
-        })
+                this.messageService.add({
+                    key: 'toast',
+                    severity: 'error',
+                    detail: 'Something went wrong',
+                });
+                console.log(err);
+            },
+        });
     }
 
     getProductDetail(id) {
         this.productSerivce.getProduct(id).subscribe({
             next: (res) => {
-                this.storageService.setItemLocal("currentProduct", res)
-            }
-        })
+                this.storageService.setItemLocal('currentProduct', res);
+            },
+        });
     }
 
     onShowAttribute() {
@@ -245,28 +267,39 @@ export class ProductDetailComponent implements OnInit {
                 file: file,
                 url: this.sanitizer.bypassSecurityTrustUrl(
                     window.URL.createObjectURL(file)
-                )
-            }
+                ),
+            };
             this.imgs.push(fileHandler);
         }
     }
 
     onRemoveFile(event) {
-        const newImgs = this.imgs.filter(file => file.file.name !== event.file.name)
+        const newImgs = this.imgs.filter(
+            (file) => file.file.name !== event.file.name
+        );
         this.imgs = newImgs;
     }
 
     deleteImg(imgLink) {
         this.removedImgs.push(imgLink);
-        this.listImages = this.listImages.filter(e => e !== imgLink);
+        this.listImages = this.listImages.filter((e) => e !== imgLink);
     }
 
     onDeleteAtt(vari) {
-        console.log(vari)
+        console.log(vari);
         this.productSerivce.deleteAttribute(vari).subscribe({
-            next: () => this.messageService.add({ key: 'toast', severity: 'success', detail: 'Deleted' }),
-            error: () => this.messageService.add({ key: 'toast', severity: 'error', detail: 'Delete failed' }),
-        })
+            next: () =>
+                this.messageService.add({
+                    key: 'toast',
+                    severity: 'success',
+                    detail: 'Deleted',
+                }),
+            error: () =>
+                this.messageService.add({
+                    key: 'toast',
+                    severity: 'error',
+                    detail: 'Delete failed',
+                }),
+        });
     }
-
 }

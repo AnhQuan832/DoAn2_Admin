@@ -7,12 +7,17 @@ import { OrderComponent } from './order/order.component';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { InputTextModule } from 'primeng/inputtext';
 import { MultiSelectModule } from 'primeng/multiselect';
+import { MessageService } from 'primeng/api';
+import { MessageModule } from 'primeng/message';
+import { DialogModule } from 'primeng/dialog';
+import { ToastModule } from 'primeng/toast';
+import { TableModule } from 'primeng/table';
+import { ToolbarModule } from 'primeng/toolbar';
+import { VoucherManagementComponent } from './voucher-management/voucher-management.component';
+import { ChatComponent } from './chat/chat.component';
 
 @NgModule({
-    declarations: [
-
-        OrderComponent,
-    ],
+    declarations: [],
     imports: [
         CommonModule,
         PagesRoutingModule,
@@ -20,6 +25,11 @@ import { MultiSelectModule } from 'primeng/multiselect';
         MultiSelectModule,
         InputTextModule,
         InputNumberModule,
-    ]
+        MessageModule,
+        DialogModule,
+        ToastModule,
+        TableModule,
+        ToolbarModule,
+    ],
 })
-export class PagesModule { }
+export class PagesModule {}

@@ -1,35 +1,36 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { OrderRoutingModule } from './order-routing.module';
+import { VoucherManagementRoutingModule } from './voucher-management-routing.module';
+import { VoucherManagementComponent } from './voucher-management.component';
+import { DialogModule } from 'primeng/dialog';
+import { InputNumberModule } from 'primeng/inputnumber';
+import { InputTextModule } from 'primeng/inputtext';
+import { MessageModule } from 'primeng/message';
+import { MultiSelectModule } from 'primeng/multiselect';
 import { TableModule } from 'primeng/table';
-import { ToolbarModule } from 'primeng/toolbar';
-import { OrderComponent } from './order.component';
 import { ToastModule } from 'primeng/toast';
+import { ToolbarModule } from 'primeng/toolbar';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SharedModule } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
-import { DialogModule } from 'primeng/dialog';
 import { DividerModule } from 'primeng/divider';
 import { DropdownModule } from 'primeng/dropdown';
 import { FileUploadModule } from 'primeng/fileupload';
-import { InputNumberModule } from 'primeng/inputnumber';
-import { InputTextModule } from 'primeng/inputtext';
 import { InputTextareaModule } from 'primeng/inputtextarea';
-import { MultiSelectModule } from 'primeng/multiselect';
 import { PanelModule } from 'primeng/panel';
 import { RadioButtonModule } from 'primeng/radiobutton';
 import { RatingModule } from 'primeng/rating';
 import { RippleModule } from 'primeng/ripple';
 import { TooltipModule } from 'primeng/tooltip';
-import { TagModule } from 'primeng/tag';
-import { OrderDetailComponent } from './order-detail/order-detail.component';
+import { VoucherDetailComponent } from './voucher-detail/voucher-detail.component';
 
 @NgModule({
-    declarations: [OrderComponent, OrderDetailComponent],
+    declarations: [VoucherManagementComponent, VoucherDetailComponent],
     imports: [
         CommonModule,
-        OrderRoutingModule,
+        VoucherManagementRoutingModule,
+        TableModule,
         FileUploadModule,
         FormsModule,
         ButtonModule,
@@ -51,8 +52,6 @@ import { OrderDetailComponent } from './order-detail/order-detail.component';
         TooltipModule,
         MultiSelectModule,
         PanelModule,
-        TableModule,
-        TagModule,
     ],
 })
-export class OrderModule {}
+export class VoucherManagementModule {}
