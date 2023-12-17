@@ -46,6 +46,16 @@ export const API = {
             FAIL: '0_1_f',
         },
     },
+    PAYMENT: {
+        END_POINT: {
+            CHECK_OUT: API_URL + 'payment/user-cart-checkout',
+            SINGLE_CHECKOUT: API_URL + 'payment/single-item-checkout',
+            UNTAUTH_CHECK_OUT:
+                API_URL + 'payment/un-authenticate/user-cart-checkout',
+            UNTAUTH_SINGLE_CHECKOUT:
+                API_URL + 'payment/un-authenticate/single-item-checkout',
+        },
+    },
     ORDER: {
         END_POINT: {},
         STATUS: {
@@ -60,6 +70,30 @@ export const API = {
         },
         STATUS: {
             GET_PRODUCT_SUCCESS: '0_2_s',
+            FAIL: '0_1_f',
+        },
+    },
+    CHAT: {
+        END_POINT: {
+            CHAT_ROOM: API_URL + 'chat/getAllChatRoomByUserID',
+            MESSAGES_BY_CHAT_ROOM:
+                API_URL + 'chat/getAllMessageBySenderIDAndRecipientID',
+            UNREAD_MESSAGES_COUNT: API_URL + 'chat/messages',
+            SEEN_MESSAGE: API_URL + 'chat/seenMessage',
+        },
+        STATUS: {
+            SUCCESS: '0_2_s',
+            FAIL: '0_1_f',
+        },
+    },
+    INVOICE: {
+        END_POINT: {
+            INVOICE: API_URL + 'invoice',
+            UPDATE_INVOICE: API_URL + 'invoice/update-status',
+            INVOICE_USER: API_URL + 'invoice/user-invoice-info',
+        },
+        STATUS: {
+            SUCCESS: '0_2_s',
             FAIL: '0_1_f',
         },
     },

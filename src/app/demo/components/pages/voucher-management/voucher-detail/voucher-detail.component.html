@@ -19,12 +19,22 @@
             <span class="p-float-label mt-2">
                 <h6 class="addressLabel ps-0">Value</h6>
                 <p-inputNumber
+                    *ngIf="addVoucherForm.value.type === 'FLAT'"
                     class="inputtext ps-1 w-100"
                     formControlName="value"
                     mode="decimal"
                     mode="currency"
                     currency="VND"
                     locale="jp-JP"
+                >
+                </p-inputNumber>
+                <p-inputNumber
+                    *ngIf="addVoucherForm.value.type !== 'FLAT'"
+                    class="inputtext ps-1 w-100"
+                    formControlName="value"
+                    mode="decimal"
+                    max="100"
+                    suffix=" %"
                 >
                 </p-inputNumber>
             </span>
