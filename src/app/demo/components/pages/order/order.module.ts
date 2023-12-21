@@ -24,6 +24,7 @@ import { RippleModule } from 'primeng/ripple';
 import { TooltipModule } from 'primeng/tooltip';
 import { TagModule } from 'primeng/tag';
 import { OrderDetailComponent } from './order-detail/order-detail.component';
+import { CalendarModule } from 'primeng/calendar';
 
 @NgModule({
     declarations: [OrderComponent, OrderDetailComponent],
@@ -53,6 +54,7 @@ import { OrderDetailComponent } from './order-detail/order-detail.component';
         PanelModule,
         TableModule,
         TagModule,
+        CalendarModule,
     ],
 })
 export class OrderModule {}

@@ -28,6 +28,11 @@ import { RouterModule } from '@angular/router';
                 loadChildren: () =>
                     import('./chat/chat.module').then((m) => m.ChatModule),
             },
+            {
+                path: 'sale',
+                loadChildren: () =>
+                    import('./sale/sale.module').then((m) => m.SaleModule),
+            },
             { path: '**', redirectTo: '/notfound' },
         ]),
     ],

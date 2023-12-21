@@ -5,7 +5,7 @@ import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { StorageService } from 'src/app/services/storage.service';
 import { ProductImportDetailComponent } from '../product-import-detail/product-import-detail.component';
 import { ProductService } from 'src/app/services/product.service';
-
+import * as moment from 'moment';
 @Component({
     selector: 'app-product-import',
     templateUrl: './product-import.component.html',
@@ -19,6 +19,7 @@ export class ProductImportComponent implements OnInit {
     selectedProducts: any[] = [];
 
     ref: DynamicDialogRef;
+    rangeDates;
 
     constructor(
         private productService: ProductService,
@@ -31,8 +32,8 @@ export class ProductImportComponent implements OnInit {
         this.getAllImports();
     }
 
-    private getAllImports() {
-        this.productService.getAllImport().subscribe({
+    private getAllImports(params?) {
+        this.productService.getAllImport(params).subscribe({
             next: (res) => (this.products = res),
         });
     }
@@ -61,5 +62,27 @@ export class ProductImportComponent implements OnInit {
                 );
             },
         });
+    }
+
+    onDateChange(clear?) {
+        if (clear) this.getAllImports();
+        else {
+            const params = {
+                fromDate: moment(this.rangeDates[0]).set({
+                    hour: 7,
+                    minute: 0,
+                    second: 0,
+                    millisecond: 0,
+                }),
+                toDate: moment(this.rangeDates[1]).set({
+                    hour: 7,
+                    minute: 0,
+                    second: 0,
+                    millisecond: 0,
+                }),
+                groupType: 'DAY',
+            };
+            this.getAllImports(params);
+        }
     }
 }

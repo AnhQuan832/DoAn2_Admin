@@ -1,0 +1,32 @@
+<div class="grid">
+    <div class="col-12">
+        <div class="card px-6 py-6">
+            <div class="d-flex mb-2 align-items-center">
+                <h6 class="text-center mb-0 me-4">Select Option</h6>
+                <p-dropdown
+                    [options]="statOption"
+                    optionLabel="name"
+                    [(ngModel)]="selectedOption"
+                    (onChange)="onOptionChange()"
+                ></p-dropdown>
+                <p-calendar
+                    *ngIf="this.selectedOption.id === 'SPECIFIC'"
+                    class="ms-2"
+                    [(ngModel)]="rangeDates"
+                    placeholder="Select date"
+                    selectionMode="range"
+                    [readonlyInput]="true"
+                    dateFormat="dd/mm/yy"
+                    [showIcon]="true"
+                    (onClickOutside)="onDateChange()"
+                ></p-calendar>
+            </div>
+            <div class="card w-full">
+                <h5 class="text-left w-full">
+                    Total Stat {{ selectedOption.name }}
+                </h5>
+                <p-chart type="line" [data]="lineData"></p-chart>
+            </div>
+        </div>
+    </div>
+</div>

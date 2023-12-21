@@ -13,9 +13,10 @@ export class OrderService {
         private storageService: StorageService
     ) {}
 
-    getPaymentInfo() {
+    getPaymentInfo(params?) {
         return this.http
             .get(API.INVOICE.END_POINT.INVOICE, {
+                params: params,
                 headers: this.storageService.getHttpHeader(),
             })
             .pipe(

@@ -231,9 +231,10 @@ export class ProductService {
             );
     }
 
-    getAllImport() {
+    getAllImport(params?) {
         return this.http
             .get(API.IMPORT.END_POINT.IMPORT, {
+                params: params,
                 headers: this.storageService.getHttpHeader(),
             })
             .pipe(
@@ -310,6 +311,26 @@ export class ProductService {
                         API.IMPORT.STATUS.GET_PRODUCT_SUCCESS
                     ) {
                         return data.data.itemList;
+                    } else {
+                        return [];
+                    }
+                }),
+                catchError((err) => {
+                    throw new Error(err);
+                })
+            );
+    }
+
+    getProdMost(quantity) {
+        return this.http
+            .get(API.PRODUCT.END_POINT.MOST_VIEW, { params: { quantity } })
+            .pipe(
+                map((data: any) => {
+                    if (
+                        data.meta.statusCode ===
+                        API.PRODUCT.STATUS.GET_PRODUCT_SUCCESS
+                    ) {
+                        return data.data.productList;
                     } else {
                         return [];
                     }
