@@ -3,9 +3,9 @@ import { MenuItem } from 'primeng/api';
 import { Product } from '../../api/product';
 import { Subscription } from 'rxjs';
 import { LayoutService } from 'src/app/layout/service/app.layout.service';
-import { ProductService } from '../../service/product.service';
 import { StorageService } from 'src/app/services/storage.service';
 import { Route, Router } from '@angular/router';
+import { ProductService } from 'src/app/services/product.service';
 
 @Component({
     templateUrl: './dashboard.component.html',
@@ -35,8 +35,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
     ngOnInit() {
         this.initChart();
         this.productService
-            .getProductsSmall()
-            .then((data) => (this.products = data));
+            .getProdMost(5)
+            .subscribe((data) => (this.products = data));
 
         this.items = [
             { label: 'Add New', icon: 'pi pi-fw pi-plus' },

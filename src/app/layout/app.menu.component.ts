@@ -51,6 +51,11 @@ export class AppMenuComponent implements OnInit {
                         routerLink: ['/pages/voucher'],
                     },
                     {
+                        label: 'Statistic',
+                        icon: 'pi pi-fw pi-chart-line',
+                        routerLink: ['/pages/sale'],
+                    },
+                    {
                         label: 'Message',
                         icon: 'pi pi-fw pi-comment',
                         routerLink: ['/pages/message'],

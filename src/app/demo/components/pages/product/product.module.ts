@@ -28,12 +28,13 @@ import { ProductImportDetailComponent } from './product-import-detail/product-im
 import { MultiSelectModule } from 'primeng/multiselect';
 
 import { PanelModule } from 'primeng/panel';
+import { CalendarModule } from 'primeng/calendar';
 @NgModule({
     declarations: [
         ProductComponent,
         ProductDetailComponent,
         ProductImportComponent,
-        ProductImportDetailComponent
+        ProductImportDetailComponent,
     ],
     imports: [
         CommonModule,
@@ -60,7 +61,8 @@ import { PanelModule } from 'primeng/panel';
         TooltipModule,
         MultiSelectModule,
         PanelModule,
+        CalendarModule,
     ],
-    providers: [MessageService, DialogService]
+    providers: [MessageService, DialogService],
 })
-export class ProductModule { }
+export class ProductModule {}

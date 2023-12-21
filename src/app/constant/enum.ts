@@ -29,6 +29,8 @@ export const API = {
             ADD_ATTRIBUTES: API_URL + 'product/add-attribute',
             IMAGES: API_URL + 'product/product-images',
             DELETE_ATTRIBUTE: API_URL + 'product/delete-attribute',
+            REVIEW: API_URL + 'rating',
+            MOST_VIEW: API_URL + 'product/most-views',
         },
         STATUS: {
             GET_PRODUCT_SUCCESS: '0_2_s',
@@ -95,6 +97,11 @@ export const API = {
         STATUS: {
             SUCCESS: '0_2_s',
             FAIL: '0_1_f',
+        },
+    },
+    STATISTIC: {
+        END_POINT: {
+            STATISITC: API_URL + 'statistic',
         },
     },
 };
