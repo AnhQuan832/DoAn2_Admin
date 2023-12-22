@@ -67,7 +67,6 @@ export class ChatComponent implements OnInit, AfterViewInit {
     }
 
     async sendMessage() {
-        this.message = 'Hello';
         if (this.message) {
             const currentDate = new Date();
             const timestamp = currentDate.getTime();
