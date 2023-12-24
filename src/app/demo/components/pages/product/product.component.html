@@ -12,7 +12,7 @@
                             class="p-button-success mr-2"
                             (click)="addNewProduct()"
                         ></button>
-                        <button
+                        <!-- <button
                             pButton
                             pRipple
                             label="Delete"
@@ -22,7 +22,7 @@
                             [disabled]="
                                 !selectedProducts || !selectedProducts.length
                             "
-                        ></button>
+                        ></button> -->
                     </div>
                 </ng-template>
 
@@ -166,7 +166,7 @@
                                     class="p-button-rounded p-button-success mr-2"
                                     (click)="onRowSelect(product)"
                                 ></button>
-                                <button
+                                <!-- <button
                                     pButton
                                     pRipple
                                     icon="pi pi-trash"
@@ -175,7 +175,7 @@
                                         $event.stopPropagation();
                                         deleteProduct(product)
                                     "
-                                ></button>
+                                ></button> -->
                             </div>
                         </td>
                     </tr>
