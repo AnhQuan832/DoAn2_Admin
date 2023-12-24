@@ -24,9 +24,13 @@
                     'type',
                     'createdDate',
                     'value',
-                    'price',
+                    'finalPrice',
                     'maxValue',
-                    'minInvoiceValue'
+                    'minInvoiceValue',
+                    'paymentType',
+                    'cityName',
+                    'districtName',
+                    'wardName'
                 ]"
                 [paginator]="true"
                 [rowsPerPageOptions]="[10, 20, 30]"
@@ -130,9 +134,9 @@
                         <th [width]="'10%'" pSortableColumn="finalPrice">
                             Price <p-sortIcon field="finalPrice"></p-sortIcon>
                         </th>
-                        <th [width]="'40%'" pSortableColumn="paymentType">
+                        <th [width]="'40%'" pSortableColumn="cityName">
                             Address
-                            <p-sortIcon field="paymentType"></p-sortIcon>
+                            <p-sortIcon field="cityName"></p-sortIcon>
                         </th>
                         <th [width]="'10%'" pSortableColumn="paymentType">
                             Payment
@@ -178,7 +182,7 @@
                             {{
                                 product.paymentType === "CREDIT_CARD"
                                     ? "Credit card"
-                                    : "Cash"
+                                    : "COD"
                             }}
                         </td>
                         <td style="width: 14%; min-width: 10rem">

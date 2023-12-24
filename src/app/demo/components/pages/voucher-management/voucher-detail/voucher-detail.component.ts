@@ -26,7 +26,7 @@ export class VoucherDetailComponent implements OnInit {
     model;
     addVoucherForm = this.builder.group({
         voucherId: this.builder.control(''),
-        type: this.builder.control('', Validators.required),
+        type: this.builder.control('PERCENTAGE', Validators.required),
         value: this.builder.control('', Validators.required),
         price: this.builder.control('', Validators.required),
         maxValue: this.builder.control('', Validators.required),
