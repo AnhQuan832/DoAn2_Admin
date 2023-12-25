@@ -321,9 +321,29 @@ export class ProductService {
             );
     }
 
-    getProdMost(quantity) {
+    getProdMost(params) {
         return this.http
-            .get(API.PRODUCT.END_POINT.MOST_VIEW, { params: { quantity } })
+            .get(API.PRODUCT.END_POINT.MOST_VIEW, { params: params })
+            .pipe(
+                map((data: any) => {
+                    if (
+                        data.meta.statusCode ===
+                        API.PRODUCT.STATUS.GET_PRODUCT_SUCCESS
+                    ) {
+                        return data.data.productList;
+                    } else {
+                        return [];
+                    }
+                }),
+                catchError((err) => {
+                    throw new Error(err);
+                })
+            );
+    }
+
+    getProdMostBuy(params) {
+        return this.http
+            .get(API.PRODUCT.END_POINT.MOST_BUY, { params: params })
             .pipe(
                 map((data: any) => {
                     if (

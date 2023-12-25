@@ -7,6 +7,7 @@ import { ChartModule } from 'primeng/chart';
 import { CalendarModule } from 'primeng/calendar';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DropdownModule } from 'primeng/dropdown';
+import { TableModule } from 'primeng/table';
 
 @NgModule({
     declarations: [SaleComponent],
@@ -18,6 +19,7 @@ import { DropdownModule } from 'primeng/dropdown';
         FormsModule,
         ReactiveFormsModule,
         DropdownModule,
+        TableModule,
     ],
 })
 export class SaleModule {}
