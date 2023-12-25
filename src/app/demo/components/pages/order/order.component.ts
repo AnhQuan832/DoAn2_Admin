@@ -64,6 +64,7 @@ export class OrderComponent implements OnInit {
             case 'COMPLETED':
                 return 'success';
             case 'PENDING':
+            case 'PAID':
                 return 'info';
             case 'RETURN':
                 return 'warning';

@@ -121,7 +121,7 @@
 
 <div class="d-flex justify-content-center gap-2 mt-2">
     <button
-        *ngIf="data.status === 'PENDING'"
+        *ngIf="data.status === 'PENDING' || data.status === 'PAID'"
         pButton
         pRipple
         label="Cancel"
@@ -137,7 +137,7 @@
         (click)="updateStatus('RETURN')"
     ></button>
     <button
-        *ngIf="data.status === 'PENDING'"
+        *ngIf="data.status === 'PENDING' || data.status === 'PAID'"
         pButton
         pRipple
         label="Confirm"
