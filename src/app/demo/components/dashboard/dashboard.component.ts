@@ -9,6 +9,7 @@ import { ProductService } from 'src/app/services/product.service';
 import * as _ from 'lodash';
 import * as moment from 'moment';
 import { StatisticService } from 'src/app/services/statistic.service';
+import { dA } from '@fullcalendar/core/internal-common';
 
 @Component({
     templateUrl: './dashboard.component.html',
@@ -17,7 +18,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     items!: MenuItem[];
 
     products!: Product[];
-
+    mostBuy;
     chartData: any;
 
     chartOptions: any;
@@ -42,9 +43,17 @@ export class DashboardComponent implements OnInit, OnDestroy {
             groupType: 'DAY',
         };
         this.getData(params);
-        this.productService
-            .getProdMost(5)
-            .subscribe((data) => (this.products = data));
+
+        const paramTable = {
+            quantity: 5,
+            daysAmount: 7,
+        };
+        this.productService.getProdMost(paramTable).subscribe((data) => {
+            this.products = data;
+        });
+        this.productService.getProdMostBuy(paramTable).subscribe((data) => {
+            this.mostBuy = data;
+        });
     }
 
     initChart(data) {

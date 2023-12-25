@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { StatisticService } from 'src/app/services/statistic.service';
 import * as _ from 'lodash';
 import * as moment from 'moment';
+import { ProductService } from 'src/app/services/product.service';
 @Component({
     selector: 'app-sale',
     templateUrl: './sale.component.html',
@@ -33,7 +34,12 @@ export class SaleComponent implements OnInit {
         },
     ];
     selectedOption = null;
-    constructor(private statisticService: StatisticService) {}
+    mostView;
+    mostBuy;
+    constructor(
+        private statisticService: StatisticService,
+        private productService: ProductService
+    ) {}
 
     ngOnInit(): void {
         const params = {
@@ -45,6 +51,7 @@ export class SaleComponent implements OnInit {
             groupType: 'DAY',
         };
         this.getData(params);
+        this.getView(7);
     }
     initChart(data) {
         const documentStyle = getComputedStyle(document.documentElement);
@@ -100,6 +107,12 @@ export class SaleComponent implements OnInit {
             groupType: 'DAY',
         };
         this.getData(params);
+        this.getView(
+            moment(this.rangeDates[1]).diff(
+                moment(this.rangeDates[0]),
+                'days'
+            ) + 1
+        );
     }
 
     getData(params) {
@@ -122,6 +135,30 @@ export class SaleComponent implements OnInit {
                 groupType: this.selectedOption.id === 'year' ? 'MONTH' : 'DAY',
             };
             this.getData(params);
+            let days = 0;
+            switch (this.selectedOption.id) {
+                case 'week':
+                    days = 7;
+                    break;
+                case 'month':
+                    days = 30;
+                    break;
+                default:
+                    days = 365;
+            }
+            this.getView(days);
         }
+    }
+
+    getView(days) {
+        const params = {
+            daysAmount: days,
+        };
+        this.productService.getProdMost(params).subscribe((data) => {
+            this.mostView = data;
+        });
+        this.productService.getProdMostBuy(params).subscribe((data) => {
+            this.mostBuy = data;
+        });
     }
 }

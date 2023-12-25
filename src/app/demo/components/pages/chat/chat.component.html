@@ -36,6 +36,7 @@
                             <div class="avatar">
                                 <img
                                     src="{{ user.userAvatar }}"
+                                    onerror="this.onerror=null;this.src='/assets/no_user.png';"
                                     alt=""
                                     class="rounded-circle ms-2"
                                 />
@@ -79,6 +80,7 @@
                     <div class="chat-header p-2 m-1 rounded-3">
                         <img
                             src="{{ currentUser.userAvatar }}"
+                            onerror="this.onerror=null;this.src='/assets/no_user.png';"
                             alt=""
                             class="rounded-circle mx-2"
                         />
@@ -101,8 +103,6 @@
                                         : currentUser.userAvatar ||
                                           '/assets/no_user.png'
                                 }}"
-                                pBadge
-                                shape="circle"
                                 onerror="this.onerror=null;this.src='/assets/no_user.png';"
                                 class="d-flex align-items-center rounded-circle"
                             />
