@@ -123,8 +123,6 @@ export class AddProduct implements OnInit {
             ...this.addProductForm.get('size').value,
         ];
         this.addProductForm.get('varietyAttributeList').setValue(listVariety);
-        console.log(this.addProductForm.value);
-        console.log(this.imgs.length);
         this.productSerivce
             .addNewProduct(this.prepareFormData(this.addProductForm))
             .subscribe({
