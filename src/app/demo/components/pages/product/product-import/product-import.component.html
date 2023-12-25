@@ -93,9 +93,9 @@
                 </ng-template>
                 <ng-template pTemplate="header">
                     <tr>
-                        <th style="width: 3rem">
+                        <!-- <th style="width: 3rem">
                             <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
-                        </th>
+                        </th> -->
                         <th [width]="'40%'" pSortableColumn="createdDate">
                             Create Date
                             <p-sortIcon field="createdDate"></p-sortIcon>
@@ -109,11 +109,11 @@
                 </ng-template>
                 <ng-template pTemplate="body" let-product>
                     <tr style="cursor: pointer" (click)="onRowSelect(product)">
-                        <td>
+                        <!-- <td>
                             <p-tableCheckbox
                                 [value]="product"
                             ></p-tableCheckbox>
-                        </td>
+                        </td> -->
 
                         <td style="width: 14%; min-width: 10rem">
                             <span class="p-column-title">Create Date</span>

@@ -89,19 +89,29 @@ export class AddProduct implements OnInit {
     }
 
     onAddBrand() {
-        this.dialogService.open(AddBrand, {
+        this.ref = this.dialogService.open(AddBrand, {
             header: 'Add new Brand',
+        });
+        this.ref.onClose.subscribe((res) => {
+            this.productSerivce.getBrand().subscribe({
+                next: (res) => (this.brandOption = res),
+            });
         });
     }
 
     onAddCategory() {
-        this.dialogService.open(AddCategory, {
+        this.ref = this.dialogService.open(AddCategory, {
             header: 'Add new Category',
+        });
+        this.ref.onClose.subscribe((res) => {
+            this.productSerivce.getCategory().subscribe({
+                next: (res) => (this.categoryOption = res),
+            });
         });
     }
 
     onAddSubCategory() {
-        this.dialogService.open(AddSubCategory, {
+        this.ref = this.dialogService.open(AddSubCategory, {
             header: 'Add new SubCategory',
         });
     }
@@ -113,8 +123,6 @@ export class AddProduct implements OnInit {
             ...this.addProductForm.get('size').value,
         ];
         this.addProductForm.get('varietyAttributeList').setValue(listVariety);
-        console.log(this.addProductForm.value);
-        console.log(this.imgs.length);
         this.productSerivce
             .addNewProduct(this.prepareFormData(this.addProductForm))
             .subscribe({

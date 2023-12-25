@@ -6,18 +6,19 @@ import { DynamicDialogRef } from 'primeng/dynamicdialog';
 import { ProductService } from 'src/app/services/product.service';
 import { ProductComponent } from '../../pages/product/product.component';
 import { FileHandler } from 'src/app/model/FileHandler';
+import { ProductDetailComponent } from '../../pages/product/product-detail/product-detail.component';
 
 @Component({
     selector: 'app-charts',
     templateUrl: './add-brand.component.html',
     styleUrls: ['./add-brand.component.scss'],
+    providers: [ProductDetailComponent],
 })
 export class AddBrand implements OnInit {
-
     brandFile: any;
     imgUrl;
     brand = {
-        name: "",
+        name: '',
     };
     brandLogo: any;
     name;
@@ -27,46 +28,40 @@ export class AddBrand implements OnInit {
         private sanitizer: DomSanitizer,
         private productCpn: ProductComponent,
         private ref: DynamicDialogRef,
-
-    ) { }
-    ngOnInit(): void {
-    }
-
-
-
+        private prodDetail: ProductDetailComponent
+    ) {}
+    ngOnInit(): void {}
 
     addNewBrand() {
         const brand = this.prepareFormData(this.brand);
         this.productSerivce.addNewBrand(brand).subscribe({
             next: (res) => {
-                this.productCpn.showToast("Success", "success")
+                this.productCpn.showToast('Success', 'success');
+                this.prodDetail.getBrand();
                 setTimeout(() => {
-                    this.ref.close();
+                    this.ref.close(res);
                 }, 100);
-            }
-        })
+            },
+        });
     }
 
     prepareFormData(brand: any) {
         const formData = new FormData();
-        console.log(this.brand)
+        console.log(this.brand);
         formData.append(
             'brand',
             new Blob([JSON.stringify(brand)], { type: 'application/json' })
         );
-        formData.append(
-            'image', this.brandLogo.file,
-            this.brandLogo.file.name
-        )
+        formData.append('image', this.brandLogo.file, this.brandLogo.file.name);
 
-        return formData
+        return formData;
     }
     selectImages(event) {
         if (event.target.files && event.target.files[0]) {
             const file = event.target.files[0];
 
             const reader = new FileReader();
-            reader.onload = e => this.imgUrl = reader.result;
+            reader.onload = (e) => (this.imgUrl = reader.result);
 
             reader.readAsDataURL(file);
 
@@ -74,11 +69,10 @@ export class AddBrand implements OnInit {
                 file: file,
                 url: this.sanitizer.bypassSecurityTrustUrl(
                     window.URL.createObjectURL(file)
-                )
-            }
+                ),
+            };
 
-            this.brandLogo = fileHandler
+            this.brandLogo = fileHandler;
         }
     }
-
 }
