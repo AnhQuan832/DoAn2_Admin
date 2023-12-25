@@ -79,18 +79,30 @@ export class ProductDetailComponent implements OnInit {
                 this.attribute = res;
             },
         });
+        this.getBrand();
+        this.getSubCate();
+
+        this.getProduct();
+    }
+
+    public getBrand() {
         this.productSerivce.getBrand().subscribe({
             next: (res) => (this.brandOption = res),
         });
+    }
+
+    public getCate() {
         this.productSerivce.getCategory().subscribe({
             next: (res) => (this.categoryOption = res),
         });
+    }
+
+    public getSubCate() {
         this.productSerivce
             .getSubCategory(this.product.subCategory.category.categoryId)
             .subscribe({
                 next: (res) => (this.subCategoryOption = res),
             });
-        this.getProduct();
     }
 
     getProduct() {
@@ -183,20 +195,40 @@ export class ProductDetailComponent implements OnInit {
     // }
 
     onAddBrand() {
-        this.dialogService.open(AddBrand, {
+        this.ref = this.dialogService.open(AddBrand, {
             header: 'Add new Brand',
+        });
+
+        this.ref.onClose.subscribe((res) => {
+            this.productSerivce.getBrand().subscribe({
+                next: (res) => (this.brandOption = res),
+            });
         });
     }
 
     onAddCategory() {
-        this.dialogService.open(AddCategory, {
+        this.ref = this.dialogService.open(AddCategory, {
             header: 'Add new Category',
+        });
+
+        this.ref.onClose.subscribe((res) => {
+            this.productSerivce.getCategory().subscribe({
+                next: (res) => (this.categoryOption = res),
+            });
         });
     }
 
     onAddSubCategory() {
-        this.dialogService.open(AddSubCategory, {
+        this.ref = this.dialogService.open(AddSubCategory, {
             header: 'Add new SubCategory',
+        });
+
+        this.ref.onClose.subscribe((res) => {
+            this.productSerivce
+                .getSubCategory(this.product.subCategory.category.categoryId)
+                .subscribe({
+                    next: (res) => (this.subCategoryOption = res),
+                });
         });
     }
 

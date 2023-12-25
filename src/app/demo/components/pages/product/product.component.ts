@@ -12,7 +12,6 @@ import { AddProduct } from '../../shared/add product/add-product.component';
     selector: 'app-product',
     templateUrl: './product.component.html',
     styleUrls: ['./product.component.scss'],
-
 })
 export class ProductComponent {
     productDialog: boolean = false;
@@ -36,39 +35,47 @@ export class ProductComponent {
     rowsPerPageOptions = [5, 10, 20];
 
     ref: DynamicDialogRef;
-    constructor(private productService: ProductService,
+    constructor(
+        private productService: ProductService,
         private router: Router,
         private dialogService: DialogService,
         private storageSerive: StorageService,
-        private messageService: MessageService) { }
+        private messageService: MessageService
+    ) {}
 
     ngOnInit() {
         this.productService.getAllProduct().subscribe({
             next: (res) => {
-                this.products = res
-                console.log(this.products)
-            }
-        })
+                this.products = res;
+            },
+        });
         this.cols = [
             { field: 'product', header: 'Product' },
             { field: 'price', header: 'Price' },
             { field: 'category', header: 'Category' },
             { field: 'rating', header: 'Reviews' },
-            { field: 'inventoryStatus', header: 'Status' }
+            { field: 'inventoryStatus', header: 'Status' },
         ];
 
         this.statuses = [
             { label: 'INSTOCK', value: 'instock' },
             { label: 'LOWSTOCK', value: 'lowstock' },
-            { label: 'OUTOFSTOCK', value: 'outofstock' }
+            { label: 'OUTOFSTOCK', value: 'outofstock' },
         ];
     }
-
 
     addNewProduct() {
         this.ref = this.dialogService.open(AddProduct, {
             header: 'Add a new Product',
             width: '50%',
+        });
+
+        this.ref.onClose.subscribe((res) => {
+            this.productService.getAllProduct().subscribe({
+                next: (res) => {
+                    this.products = res;
+                },
+            });
         });
     }
 
@@ -84,12 +91,18 @@ export class ProductComponent {
     }
 
     onRowSelect(data) {
-        this.storageSerive.setItemLocal("currentProduct", data);
-        this.router.navigate([`pages/product/product-detail/${data.productId}`])
+        this.storageSerive.setItemLocal('currentProduct', data);
+        this.router.navigate([
+            `pages/product/product-detail/${data.productId}`,
+        ]);
     }
 
     public showToast(message, type) {
-        this.messageService.add({ key: 'toast', severity: type, detail: message })
+        this.messageService.add({
+            key: 'toast',
+            severity: type,
+            detail: message,
+        });
     }
 
     openNew() {
@@ -114,15 +127,29 @@ export class ProductComponent {
 
     confirmDeleteSelected() {
         this.deleteProductsDialog = false;
-        this.products = this.products.filter(val => !this.selectedProducts.includes(val));
-        this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Products Deleted', life: 3000 });
+        this.products = this.products.filter(
+            (val) => !this.selectedProducts.includes(val)
+        );
+        this.messageService.add({
+            severity: 'success',
+            summary: 'Successful',
+            detail: 'Products Deleted',
+            life: 3000,
+        });
         this.selectedProducts = [];
     }
 
     confirmDelete() {
         this.deleteProductDialog = false;
-        this.products = this.products.filter(val => val.id !== this.product.id);
-        this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Product Deleted', life: 3000 });
+        this.products = this.products.filter(
+            (val) => val.id !== this.product.id
+        );
+        this.messageService.add({
+            severity: 'success',
+            summary: 'Successful',
+            detail: 'Product Deleted',
+            life: 3000,
+        });
         this.product = {};
     }
 
@@ -137,17 +164,33 @@ export class ProductComponent {
         if (this.product.name?.trim()) {
             if (this.product.id) {
                 // @ts-ignore
-                this.product.inventoryStatus = this.product.inventoryStatus.value ? this.product.inventoryStatus.value : this.product.inventoryStatus;
-                this.products[this.findIndexById(this.product.id)] = this.product;
-                this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Product Updated', life: 3000 });
+                this.product.inventoryStatus = this.product.inventoryStatus
+                    .value
+                    ? this.product.inventoryStatus.value
+                    : this.product.inventoryStatus;
+                this.products[this.findIndexById(this.product.id)] =
+                    this.product;
+                this.messageService.add({
+                    severity: 'success',
+                    summary: 'Successful',
+                    detail: 'Product Updated',
+                    life: 3000,
+                });
             } else {
                 this.product.id = this.createId();
                 this.product.code = this.createId();
                 this.product.image = 'product-placeholder.svg';
                 // @ts-ignore
-                this.product.inventoryStatus = this.product.inventoryStatus ? this.product.inventoryStatus.value : 'INSTOCK';
+                this.product.inventoryStatus = this.product.inventoryStatus
+                    ? this.product.inventoryStatus.value
+                    : 'INSTOCK';
                 this.products.push(this.product);
-                this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Product Created', life: 3000 });
+                this.messageService.add({
+                    severity: 'success',
+                    summary: 'Successful',
+                    detail: 'Product Created',
+                    life: 3000,
+                });
             }
 
             this.products = [...this.products];
@@ -170,7 +213,8 @@ export class ProductComponent {
 
     createId(): string {
         let id = '';
-        const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+        const chars =
+            'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
         for (let i = 0; i < 5; i++) {
             id += chars.charAt(Math.floor(Math.random() * chars.length));
         }
@@ -178,7 +222,9 @@ export class ProductComponent {
     }
 
     onGlobalFilter(table: Table, event: Event) {
-        table.filterGlobal((event.target as HTMLInputElement).value, 'contains');
+        table.filterGlobal(
+            (event.target as HTMLInputElement).value,
+            'contains'
+        );
     }
-
 }

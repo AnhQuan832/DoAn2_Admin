@@ -164,15 +164,15 @@
                     >
                         <ng-template pTemplate="header">
                             <tr>
-                                <th width="80px" *ngIf="listSize.length > 0">
+                                <th width="100px" *ngIf="listSize.length > 0">
                                     Size
                                 </th>
-                                <th width="80px" *ngIf="listColor.length > 0">
+                                <th width="100px" *ngIf="listColor.length > 0">
                                     Color
                                 </th>
-                                <th width="80px">Stock</th>
-                                <th width="150px">Price</th>
-                                <th width="80px"></th>
+                                <th width="100px">Stock</th>
+                                <th>Price</th>
+                                <!-- <th width="80px"></th> -->
                             </tr>
                         </ng-template>
                         <ng-template
@@ -230,15 +230,9 @@
                                         </ng-template>
                                     </p-cellEditor>
                                 </td>
-                                <td>
+                                <!-- <td>
                                     <div class="flex">
-                                        <!-- <button
-                                            pButton
-                                            pRipple
-                                            icon="pi pi-pencil"
-                                            class="p-button-rounded p-button-success mr-2"
-                                            (click)="onRowSelect(product)"
-                                        ></button> -->
+
                                         <button
                                             pButton
                                             pRipple
@@ -250,7 +244,7 @@
                                             "
                                         ></button>
                                     </div>
-                                </td>
+                                </td> -->
                             </tr>
                         </ng-template>
                     </p-table>
