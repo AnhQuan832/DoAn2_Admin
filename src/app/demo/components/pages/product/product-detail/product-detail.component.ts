@@ -80,8 +80,8 @@ export class ProductDetailComponent implements OnInit {
             },
         });
         this.getBrand();
+        this.getCate();
         this.getSubCate();
-
         this.getProduct();
     }
 
@@ -239,13 +239,21 @@ export class ProductDetailComponent implements OnInit {
                 this.product.productId
             )
             .subscribe({
-                next: (res) => {
-                    this.messageService.add({
-                        key: 'toast',
-                        severity: 'success',
-                        detail: 'Success',
-                    });
-                    this.getProduct();
+                next: (res: any) => {
+                    if (res.meta.statusCode === '0_2_s') {
+                        this.messageService.add({
+                            key: 'toast',
+                            severity: 'success',
+                            detail: 'Success',
+                        });
+                        this.getProduct();
+                    } else {
+                        this.messageService.add({
+                            key: 'toast',
+                            severity: 'error',
+                            detail: 'Attribute existed',
+                        });
+                    }
                 },
             });
     }
