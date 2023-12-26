@@ -10,7 +10,7 @@
                     (onChange)="onOptionChange()"
                 ></p-dropdown>
                 <p-calendar
-                    *ngIf="this.selectedOption.id === 'SPECIFIC'"
+                    *ngIf="this.selectedOption?.id === 'SPECIFIC'"
                     class="ms-2"
                     [(ngModel)]="rangeDates"
                     placeholder="Select date"
@@ -20,10 +20,17 @@
                     [showIcon]="true"
                     (onClickOutside)="onDateChange()"
                 ></p-calendar>
+
+                <p-button
+                    class="ms-4"
+                    label="Export as PDF"
+                    icon="pi pi-arrow-circle-down"
+                    (onClick)="generatePDF()"
+                ></p-button>
             </div>
             <div class="card w-full">
                 <h5 class="text-left w-full">
-                    Total Stat {{ selectedOption.name }}
+                    Total Stat {{ selectedOption?.name }}
                 </h5>
                 <p-chart type="line" [data]="lineData"></p-chart>
             </div>

@@ -180,7 +180,12 @@
                             let-variety
                             let-editing="editing"
                         >
-                            <tr>
+                            <tr
+                                *ngIf="
+                                    variety.varietyAttributes[0]?.name ||
+                                    variety.varietyAttributes[1]?.name
+                                "
+                            >
                                 <td *ngIf="listSize.length > 0">
                                     {{
                                         variety.varietyAttributes[0]?.type ==
@@ -258,7 +263,13 @@
                             <p class="my-auto">Add more attribute</p>
                         </div>
                     </span>
-                    <span *ngIf="isAddAtt" class="p-float-label col-11">
+                    <span
+                        *ngIf="
+                            isAddAtt &&
+                            product.subCategory.category.name !== 'Food'
+                        "
+                        class="p-float-label col-11"
+                    >
                         <h6 class="addressLabel ps-0">Color</h6>
                         <div class="d-flex gap-2">
                             <div class="col-11 ps-0 pt-0">

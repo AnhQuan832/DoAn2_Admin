@@ -79,12 +79,7 @@
     <div class="col-12 xl:col-6">
         <div class="card">
             <h5>Most viewed</h5>
-            <p-table
-                [value]="products"
-                [paginator]="true"
-                [rows]="5"
-                responsiveLayout="scroll"
-            >
+            <p-table [value]="products" [rows]="5" responsiveLayout="scroll">
                 <ng-template pTemplate="header">
                     <tr>
                         <th>Image</th>
@@ -126,12 +121,7 @@
     <div class="col-12 xl:col-6">
         <div class="card">
             <h5>Most Buy</h5>
-            <p-table
-                [value]="mostBuy"
-                [paginator]="true"
-                [rows]="5"
-                responsiveLayout="scroll"
-            >
+            <p-table [value]="mostBuy" [rows]="5" responsiveLayout="scroll">
                 <ng-template pTemplate="header">
                     <tr>
                         <th>Image</th>
