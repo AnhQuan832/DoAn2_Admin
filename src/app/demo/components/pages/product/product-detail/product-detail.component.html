@@ -170,8 +170,8 @@
                                 <th width="100px" *ngIf="listColor.length > 0">
                                     Color
                                 </th>
-                                <th width="100px">Stock</th>
-                                <th>Price</th>
+                                <th class="text-center" width="100px">Stock</th>
+                                <!-- <th>Price</th> -->
                                 <!-- <th width="80px"></th> -->
                             </tr>
                         </ng-template>
@@ -205,7 +205,7 @@
                                 <td class="text-center">
                                     {{ variety.stockAmount || 0 }}
                                 </td>
-                                <td
+                                <!-- <td
                                     [pEditableColumn]="variety.name"
                                     pEditableColumnField="price"
                                 >
@@ -234,7 +234,7 @@
                                             </span>
                                         </ng-template>
                                     </p-cellEditor>
-                                </td>
+                                </td> -->
                                 <!-- <td>
                                     <div class="flex">
 

@@ -130,6 +130,20 @@ export class SaleComponent implements OnInit {
     }
 
     onDateChange() {
+        this.genParam = {
+            fromDate: moment(this.rangeDates[0]).set({
+                hour: 7,
+                minute: 0,
+                second: 0,
+                millisecond: 0,
+            }),
+            toDate: moment(this.rangeDates[1]).set({
+                hour: 7,
+                minute: 0,
+                second: 0,
+                millisecond: 0,
+            }),
+        };
         const params = {
             fromDate: moment(this.rangeDates[0]).set({
                 hour: 7,
@@ -145,6 +159,7 @@ export class SaleComponent implements OnInit {
             }),
             groupType: 'DAY',
         };
+
         this.getData(params);
         this.getView(
             moment(this.rangeDates[1]).diff(
@@ -152,7 +167,6 @@ export class SaleComponent implements OnInit {
                 'days'
             ) + 1
         );
-        this.generatePDF();
     }
 
     getData(params) {
